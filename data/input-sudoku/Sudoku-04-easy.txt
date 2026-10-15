@@ -1,0 +1,13 @@
+3..1.6.......8.712..4........9...27.......46.6.8...3.1.2.8..1..486..............4
+372196845965483712814257936139645278257318469648729351523864197486971523791532684
+Time: 26 milliseconds
+Number of Givens: 24
+Number of Singles: 47
+Number of Hidden Singles: 10
+Number of Naked Pairs: 0
+Number of Hidden Pairs: 0
+Number of Pointing Pairs/Triples: 0
+Number of Box/Line Intersections: 0
+Number of Guesses: 0
+Number of Backtracks: 0
+Difficulty: Easy
