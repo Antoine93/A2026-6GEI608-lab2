@@ -1,13 +1,14 @@
 import time
 
 from src.utils import parse_puzzle_file, write_run_file, output_path, is_solvable
-from src.solvers import solve_puzzle_bfs, solve_puzzle_dfs,solve_puzzle_ids, print_board, print_path, get_actions
+from src.solvers import solve_puzzle_bfs, solve_puzzle_dfs,solve_puzzle_ids, solve_puzzle_a_star, print_board, print_path, get_actions
 
 # ajout d'un dictionnaire pour mapper les algorithmes aux fonctions correspondantes
 SOLVERS = {
     "bfs": solve_puzzle_bfs,
     "dfs": solve_puzzle_dfs,
-    "ids": solve_puzzle_ids 
+    "ids": solve_puzzle_ids,
+    "a_star": solve_puzzle_a_star
 }
 
 if __name__ == '__main__':
@@ -20,7 +21,7 @@ if __name__ == '__main__':
         exit(1)
 
     # demander à l'utilisateur quel algorithme utiliser
-    algo = input("Algorithme à utiliser (bfs, dfs, ids) : ").strip().lower()
+    algo = input("Algorithme à utiliser (bfs, dfs, ids, a_star) : ").strip().lower()
     if algo not in SOLVERS:
         print(f" '{algo}' non reconnu. Veuillez choisir parmi : {', '.join(SOLVERS.keys())}.")
         exit(1)
@@ -61,12 +62,10 @@ if __name__ == '__main__':
 
     # Affichage des résultats après la série de mesures
     if result:
-        actions = get_actions(result)
-
         print(f"Goal state atteint :")
         print_board(result.board)
 
-        print(f'Distance : {len(actions)}')
+        print(f'Distance : {result.depth}')
         # print(f"Actions pour atteindre l'état objectif : {actions}")
         print(f"Nombre total d'itérations (états dépilés) : {iterations}\n")
     else:
