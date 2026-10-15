@@ -106,3 +106,12 @@ La frontière donne un indice de la mémoire utilisée, mais elle ne la mesure p
 
 - https://www.geeksforgeeks.org/artificial-intelligence/8-puzzle-problem-in-ai/
 - Jebbar, O. (2026). Intelligence artificielle et reconnaissance des formes (6GEI608, séance 3, recherche dans un graphe, A*). Université du Québec à Chicoutimi.
+
+---
+---
+## Partie 2 : Problème d'optimisation : plusieurs états objectifs
+
+
+## Références utilisées
+- https://github.com/aimacode/aima-python
+- https://www.geeksforgeeks.org/dsa/check-if-given-sudoku-board-configuration-is-valid-or-not/
