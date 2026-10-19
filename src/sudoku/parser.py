@@ -1,4 +1,4 @@
-# fichier pour parser un fichier sudoku et vérifier sa VALIDITÉ
+# fichier pour parser un fichier sudoku et vérifier sa VALIDITÉ (!= RÉSOLVABILITÉ)
 
 from typing import Literal
 
