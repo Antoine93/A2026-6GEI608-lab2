@@ -29,16 +29,34 @@ def get_neighbors(board, fixed):
 def value(board):
     return -conflicts(board)
 
-# garde le meilleur voisin, s'arrête quand aucun voisin n'est meilleur
+# redémarre d'une nouvelle grille quand il est bloqué et s'arrete quand le sudoku est résolu
 def hill_climbing(puzzle):
     fixed = get_fixed(puzzle)
     current = fill_rows(puzzle)
+
+    iterations = 0
+    costs = []
+    restart_count = 0
+
     while True:
+
+        #cout de l'état courant à chaque itération, avant de chercher un voisin
+        cost = conflicts(current)
+        costs.append(cost)
+
+        iterations += 1
+
+        if cost == 0:
+            return current, iterations, costs, restart_count
+
         neighbors = get_neighbors(current, fixed)
         if not neighbors:
-            break
+            return current, iterations, costs, restart_count
+        
         neighbor = argmax_random_tie(neighbors, key=value)
         if value(neighbor) <= value(current):
-            break
-        current = neighbor
-    return current
+            # bloqué, on redémarre une nouvelle grille
+            restart_count += 1
+            current = fill_rows(puzzle)
+        else:
+            current = neighbor
