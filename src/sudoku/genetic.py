@@ -13,6 +13,7 @@ TOURNAMENT_K = 5          # nombre de candidats par tournoi
 MUTATION_RATE = 0.3       # probabilité qu'un enfant soit muté
 MUTATION_SWAPS = 10        # nombre d'échanges par mutation
 MAX_GENERATIONS = 5000    # arrêt (échec) si aucune solution avant
+CROSSOVER = "uniform"     # "uniform" : chaque ligne vient au hasard de P1 ou de P2 ; "one_point" : une coupe entre deux lignes
 
 # affichage : logging.INFO = début, progression et fin ; logging.DEBUG = détail de chaque génération
 # logging.WARNING = rien (pour les mesures de temps)
@@ -49,6 +50,16 @@ def crossover(parent1, parent2):
     return parent1[:9 * c] + parent2[9 * c:]
 
 
+# crossover uniforme par lignes (adapté de recombine_uniform d'AIMA) : chaque ligne vient au hasard de P1 ou de P2
+# 2^9 combinaisons possibles au lieu de 8 ; les lignes restent entières, donc valides, et les cases données sont conservées
+def crossover_uniform(parent1, parent2):
+    child = []
+    for r in range(9):
+        parent = parent1 if random.random() < 0.5 else parent2
+        child += parent[9 * r : 9 * r + 9]
+    return child
+
+
 # indices des cases modifiables de chaque ligne, en ne gardant que les lignes qui en ont au moins 2
 # ne dépend que du puzzle : calculé une seule fois, puis passé à mutate
 def mutable_rows(fixed):
@@ -82,7 +93,10 @@ def genetic_algorithm(puzzle):
     restart_count = 0             # pas de redémarrage : gardé pour le format de retour commun avec le hill climbing
     overall_best = population[scores.index(record)]   # meilleure grille vue (le meilleur peut disparaître d'une génération à l'autre)
 
-    logger.info(f"début : population={POP_SIZE}, k={TOURNAMENT_K}, mutation={MUTATION_RATE} ({MUTATION_SWAPS} échange(s)), "
+    cross = crossover_uniform if CROSSOVER == "uniform" else crossover
+
+    logger.info(f"début : population={POP_SIZE}, k={TOURNAMENT_K}, crossover={CROSSOVER}, "
+                f"mutation={MUTATION_RATE} ({MUTATION_SWAPS} échange(s)), "
                 f"max={MAX_GENERATIONS}, meilleur initial={record} conflits")
 
     for generation in range(1, MAX_GENERATIONS + 1):
@@ -93,7 +107,7 @@ def genetic_algorithm(puzzle):
         for _ in range(POP_SIZE):
             parent1 = population[tournament_selection(range(POP_SIZE), score_of, TOURNAMENT_K)]
             parent2 = population[tournament_selection(range(POP_SIZE), score_of, TOURNAMENT_K)]
-            child = crossover(parent1, parent2)
+            child = cross(parent1, parent2)
             if random.random() < MUTATION_RATE:
                 child = mutate(child, rows, MUTATION_SWAPS)
                 mutations += 1
