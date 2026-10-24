@@ -40,11 +40,16 @@ def crossover(parent1, parent2):
     return parent1[:9 * c] + parent2[9 * c:]
 
 
-# mutation : répète swaps fois l'échange de deux cases modifiables d'une même ligne (la ligne reste valide)
-# à chaque échange, la ligne est tirée parmi celles qui ont au moins 2 cases modifiables
-def mutate(board, fixed, swaps=1):
+# indices des cases modifiables de chaque ligne, en ne gardant que les lignes qui en ont au moins 2
+# ne dépend que du puzzle : calculé une seule fois, puis passé à mutate
+def mutable_rows(fixed):
     rows = [[i for i in row if not fixed[i]] for row in ROWS]
-    rows = [free for free in rows if len(free) >= 2]
+    return [free for free in rows if len(free) >= 2]
+
+
+# mutation : répète swaps fois l'échange de deux cases modifiables d'une même ligne (la ligne reste valide)
+# à chaque échange, la ligne est tirée dans rows (résultat de mutable_rows)
+def mutate(board, rows, swaps=1):
     if not rows:
         return board
     child = board[:]
@@ -57,7 +62,7 @@ def mutate(board, fixed, swaps=1):
 # boucle des générations : s'arrête sur une solution (0 conflit) ou après MAX_GENERATIONS (échec)
 # retourne (meilleure grille vue, nombre de générations, conflits du meilleur à chaque génération, 0 redémarrage)
 def genetic_algorithm(puzzle):
-    fixed = get_fixed(puzzle)
+    rows = mutable_rows(get_fixed(puzzle))
     population = [fill_rows(puzzle) for _ in range(POP_SIZE)]
     scores = [conflicts(b) for b in population]   # conflits calculés une seule fois par individu
 
@@ -79,7 +84,7 @@ def genetic_algorithm(puzzle):
             parent2 = population[tournament_selection(range(POP_SIZE), score_of, TOURNAMENT_K)]
             child = crossover(parent1, parent2)
             if random.random() < MUTATION_RATE:
-                child = mutate(child, fixed, MUTATION_SWAPS)
+                child = mutate(child, rows, MUTATION_SWAPS)
                 mutations += 1
             next_generation.append(child)
         population = next_generation
