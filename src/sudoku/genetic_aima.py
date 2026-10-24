@@ -54,7 +54,7 @@ def init_population(pop_number, gene_pool, state_length):
 
     return population
 
-
+# Valide tel quel
 def weighted_sampler(population, weights):
     """Return a random function that chooses from population with probability
     proportional to the corresponding weight."""
@@ -75,7 +75,7 @@ def weighted_sampler(population, weights):
 
     return population[-1]
 
-
+# Valide tel quel
 def select(r, population, fitness_fn):
     """Select r individuals from the population, sampling each with probability
     proportional to its fitness."""
