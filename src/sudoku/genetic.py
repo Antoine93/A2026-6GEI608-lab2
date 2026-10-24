@@ -4,9 +4,11 @@ import random
 
 from .commun import ROWS, get_fixed, fill_rows, conflicts
 
-# paramètres de l'algorithme (valeurs à choisir à l'étape 2d)
-POP_SIZE = None        # nombre d'individus par génération
-TOURNAMENT_K = None    # nombre de candidats par tournoi
+# paramètres de l'algorithme
+POP_SIZE = 200            # nombre d'individus par génération
+TOURNAMENT_K = 4          # nombre de candidats par tournoi
+MUTATION_RATE = 0.2       # probabilité qu'un enfant soit muté
+MAX_GENERATIONS = 5000    # arrêt (échec) si aucune solution avant
 
 
 # sélection par tournoi : tire k individus au hasard et retourne celui dont la fitness est la plus petite
@@ -36,6 +38,27 @@ def mutate(board, fixed):
     return child
 
 
-# temporaire : main_sudoku.py importe cette fonction
+# boucle des générations : s'arrête sur une solution (0 conflit) ou après MAX_GENERATIONS (échec)
+# retourne (meilleure grille, nombre de générations, conflits du meilleur à chaque génération, 0 redémarrage)
 def genetic_algorithm(puzzle):
-    raise NotImplementedError("algorithme génétique en cours d'écriture")
+    fixed = get_fixed(puzzle)
+    population = [fill_rows(puzzle) for _ in range(POP_SIZE)]
+    costs = []
+
+    for generation in range(1, MAX_GENERATIONS + 1):
+        next_generation = []
+        for _ in range(POP_SIZE):
+            parent1 = tournament_selection(population, conflicts, TOURNAMENT_K)
+            parent2 = tournament_selection(population, conflicts, TOURNAMENT_K)
+            child = crossover(parent1, parent2)
+            if random.random() < MUTATION_RATE:
+                child = mutate(child, fixed)
+            next_generation.append(child)
+        population = next_generation
+
+        best = min(population, key=conflicts)
+        costs.append(conflicts(best))
+        if costs[-1] == 0:
+            return best, generation, costs, 0
+
+    return best, MAX_GENERATIONS, costs, 0
