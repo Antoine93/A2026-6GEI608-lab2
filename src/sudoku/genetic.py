@@ -7,9 +7,9 @@ import random
 from .commun import ROWS, get_fixed, fill_rows, conflicts
 
 # paramètres de l'algorithme
-POP_SIZE = 10000            # nombre d'individus par génération
-TOURNAMENT_K = 3          # nombre de candidats par tournoi
-MUTATION_RATE = 0.2       # probabilité qu'un enfant soit muté
+POP_SIZE = 1000            # nombre d'individus par génération
+TOURNAMENT_K = 5          # nombre de candidats par tournoi
+MUTATION_RATE = 0.3       # probabilité qu'un enfant soit muté
 MUTATION_SWAPS = 10        # nombre d'échanges par mutation
 MAX_GENERATIONS = 5000    # arrêt (échec) si aucune solution avant
 
