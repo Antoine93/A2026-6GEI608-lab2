@@ -1,120 +1,105 @@
-# Programme récupéré de AIMA python dans la référence
-# BESOIN D'ADAPTATION POUR FONCTIONNER AVEC NOTRE PROBLÈME DE SUDOKU
-
+# Fichier d'implémentation de l'algorithme génétique, version de base (structure inspirée de aima-python, Figure 4.8)
+# version augmentée (élitisme + mutation adaptative) : genetic_adaptive.py
+# ancienne version AIMA non adaptée : genetic_aima.py
+import logging
 import random
-from collections import Counter
 
-def genetic_search(problem, ngen=1000, pmut=0.1, n=20):
-    """Call genetic_algorithm on the appropriate parts of a problem.
-    This requires the problem to have states that can mate and mutate,
-    plus a value method that scores states."""
+from .commun import ROWS, get_fixed, fill_rows, conflicts
 
-    s = problem.initial_state
-    states = [problem.result(s, a) for a in problem.actions(s)]
-    random.shuffle(states)
-    return genetic_algorithm(states[:n], problem.value, ngen, pmut)
+# paramètres de l'algorithme
+POP_SIZE = 10000            # nombre d'individus par génération
+TOURNAMENT_K = 3          # nombre de candidats par tournoi
+MUTATION_RATE = 0.2       # probabilité qu'un enfant soit muté
+MUTATION_SWAPS = 10        # nombre d'échanges par mutation
+MAX_GENERATIONS = 5000    # arrêt (échec) si aucune solution avant
 
+# affichage : logging.INFO = début, progression et fin ; logging.DEBUG = détail de chaque génération
+# logging.WARNING = rien (pour les mesures de temps)
+LOG_LEVEL = logging.DEBUG
+LOG_EVERY = 100           # en INFO, une ligne de progression toutes les LOG_EVERY générations
 
-def genetic_algorithm(population, fitness_fn, gene_pool=[0, 1], f_thres=None, ngen=1000, pmut=0.1):
-    """[Figure 4.8]"""
-    for i in range(ngen):
-        population = [mutate(recombine(*select(2, population, fitness_fn)), gene_pool, pmut)
-                      for i in range(len(population))]
-
-        fittest_individual = fitness_threshold(fitness_fn, f_thres, population)
-        if fittest_individual:
-            return fittest_individual
-
-    return max(population, key=fitness_fn)
+logger = logging.getLogger(__name__)
+logger.setLevel(LOG_LEVEL)
+if not logger.handlers:
+    handler = logging.StreamHandler()
+    handler.setFormatter(logging.Formatter("[%(levelname)s] %(message)s"))
+    logger.addHandler(handler)
 
 
-def fitness_threshold(fitness_fn, f_thres, population):
-    """Return the fittest individual if its fitness reaches f_thres, otherwise None
-    (also None when no threshold f_thres is given)."""
-    if not f_thres:
-        return None
-
-    fittest_individual = max(population, key=fitness_fn)
-    if fitness_fn(fittest_individual) >= f_thres:
-        return fittest_individual
-
-    return None
+# sélection par tournoi : tire k individus au hasard et retourne celui dont la fitness est la plus petite
+# (fitness à minimiser, ex. conflicts)
+def tournament_selection(population, fitness_fn, k):
+    candidates = random.sample(population, k)
+    return min(candidates, key=fitness_fn)
 
 
-def init_population(pop_number, gene_pool, state_length):
-    """Initializes population for genetic algorithm
-    pop_number  :  Number of individuals in population
-    gene_pool   :  List of possible values for individuals
-    state_length:  The length of each individual"""
-    g = len(gene_pool)
-    population = []
-    for i in range(pop_number):
-        new_individual = [gene_pool[random.randrange(0, g)] for j in range(state_length)]
-        population.append(new_individual)
-
-    return population
+# crossover par lignes : lignes 0 à c-1 du parent 1, lignes c à 8 du parent 2
+# les lignes restent entières, donc valides, et les cases données sont conservées
+def crossover(parent1, parent2):
+    c = random.randint(1, 8)
+    return parent1[:9 * c] + parent2[9 * c:]
 
 
-def weighted_sampler(population, weights):
-    """Return a random function that chooses from population with probability
-    proportional to the corresponding weight."""
-    weights = list(weights)
-    if not population:
-        raise ValueError("population cannot be empty")
-
-    total = sum(weights)
-    if total <= 0:
-        return random.choice(population)
-
-    target = random.uniform(0, total)
-    cumulative = 0
-    for item, weight in zip(population, weights):
-        cumulative += weight
-        if cumulative >= target:
-            return item
-
-    return population[-1]
+# mutation : répète swaps fois l'échange de deux cases modifiables d'une même ligne (la ligne reste valide)
+# à chaque échange, la ligne est tirée parmi celles qui ont au moins 2 cases modifiables
+def mutate(board, fixed, swaps=1):
+    rows = [[i for i in row if not fixed[i]] for row in ROWS]
+    rows = [free for free in rows if len(free) >= 2]
+    if not rows:
+        return board
+    child = board[:]
+    for _ in range(swaps):
+        a, b = random.sample(random.choice(rows), 2)
+        child[a], child[b] = child[b], child[a]
+    return child
 
 
-def select(r, population, fitness_fn):
-    """Select r individuals from the population, sampling each with probability
-    proportional to its fitness."""
-    fitnesses = [fitness_fn(individual) for individual in population]
-    sampler = weighted_sampler(population, fitnesses)
-    return [sampler() for i in range(r)]
+# boucle des générations : s'arrête sur une solution (0 conflit) ou après MAX_GENERATIONS (échec)
+# retourne (meilleure grille vue, nombre de générations, conflits du meilleur à chaque génération, 0 redémarrage)
+def genetic_algorithm(puzzle):
+    fixed = get_fixed(puzzle)
+    population = [fill_rows(puzzle) for _ in range(POP_SIZE)]
+    scores = [conflicts(b) for b in population]   # conflits calculés une seule fois par individu
 
+    costs = []
+    record = min(scores)          # meilleur score vu depuis le début
+    restart_count = 0             # pas de redémarrage : gardé pour le format de retour commun avec le hill climbing
+    overall_best = population[scores.index(record)]   # meilleure grille vue (le meilleur peut disparaître d'une génération à l'autre)
 
-def recombine(x, y):
-    """Single-point crossover: combine a random-length prefix of x with the
-    corresponding suffix of y."""
-    n = len(x)
-    c = random.randrange(0, n)
-    return x[:c] + y[c:]
+    logger.info(f"début : population={POP_SIZE}, k={TOURNAMENT_K}, mutation={MUTATION_RATE} ({MUTATION_SWAPS} échange(s)), "
+                f"max={MAX_GENERATIONS}, meilleur initial={record} conflits")
 
+    for generation in range(1, MAX_GENERATIONS + 1):
+        # le tournoi travaille sur les indices : fitness_fn lit le score déjà calculé
+        score_of = lambda i: scores[i]
+        next_generation = []
+        mutations = 0
+        for _ in range(POP_SIZE):
+            parent1 = population[tournament_selection(range(POP_SIZE), score_of, TOURNAMENT_K)]
+            parent2 = population[tournament_selection(range(POP_SIZE), score_of, TOURNAMENT_K)]
+            child = crossover(parent1, parent2)
+            if random.random() < MUTATION_RATE:
+                child = mutate(child, fixed, MUTATION_SWAPS)
+                mutations += 1
+            next_generation.append(child)
+        population = next_generation
+        scores = [conflicts(b) for b in population]
 
-def recombine_uniform(x, y):
-    """Uniform crossover: build a child string by taking roughly half of its genes
-    from x and the rest from y, at random positions."""
-    n = len(x)
-    result = [0] * n
-    indexes = random.sample(range(n), n)
-    for i in range(n):
-        ix = indexes[i]
-        result[ix] = x[ix] if i < n / 2 else y[ix]
+        best_score = min(scores)
+        best = population[scores.index(best_score)]
+        costs.append(best_score)
+        if best_score < record:
+            record = best_score
+            overall_best = best
 
-    return ''.join(str(r) for r in result)
+        logger.debug(f"génération {generation} : meilleur={best_score}, moyenne={sum(scores) / POP_SIZE:.1f}, "
+                     f"pire={max(scores)}, mutations={mutations}")
+        if generation % LOG_EVERY == 0:
+            logger.info(f"génération {generation} : meilleur={best_score} conflits, record={record}")
 
+        if best_score == 0:
+            logger.info(f"solution trouvée à la génération {generation}")
+            return best, generation, costs, restart_count
 
-def mutate(x, gene_pool, pmut):
-    """With probability pmut, replace one randomly chosen gene of x with a random
-    gene from gene_pool; otherwise return x unchanged."""
-    if random.uniform(0, 1) >= pmut:
-        return x
-
-    n = len(x)
-    g = len(gene_pool)
-    c = random.randrange(0, n)
-    r = random.randrange(0, g)
-
-    new_gene = gene_pool[r]
-    return x[:c] + [new_gene] + x[c + 1:]
+    logger.info(f"échec : {MAX_GENERATIONS} générations atteintes, meilleur={record} conflits")
+    return overall_best, MAX_GENERATIONS, costs, restart_count
