@@ -3,6 +3,7 @@
 # ancienne version AIMA non adaptée : genetic_aima.py
 import logging
 import random
+import time
 
 from .commun import ROWS, get_fixed, fill_rows, conflicts
 
@@ -18,11 +19,19 @@ MAX_GENERATIONS = 5000    # arrêt (échec) si aucune solution avant
 LOG_LEVEL = logging.DEBUG
 LOG_EVERY = 100           # en INFO, une ligne de progression toutes les LOG_EVERY générations
 
+# chaque message affiche le temps écoulé depuis le début de l'exécution (remis à zéro par genetic_algorithm)
+run_start = time.perf_counter()
+
+def add_elapsed(record):
+    record.elapsed = time.perf_counter() - run_start
+    return True
+
 logger = logging.getLogger(__name__)
 logger.setLevel(LOG_LEVEL)
 if not logger.handlers:
     handler = logging.StreamHandler()
-    handler.setFormatter(logging.Formatter("[%(levelname)s] %(message)s"))
+    handler.setFormatter(logging.Formatter("[%(levelname)s %(elapsed)7.1f s] %(message)s"))
+    handler.addFilter(add_elapsed)
     logger.addHandler(handler)
 
 
@@ -62,6 +71,8 @@ def mutate(board, rows, swaps=1):
 # boucle des générations : s'arrête sur une solution (0 conflit) ou après MAX_GENERATIONS (échec)
 # retourne (meilleure grille vue, nombre de générations, conflits du meilleur à chaque génération, 0 redémarrage)
 def genetic_algorithm(puzzle):
+    global run_start
+    run_start = time.perf_counter()
     rows = mutable_rows(get_fixed(puzzle))
     population = [fill_rows(puzzle) for _ in range(POP_SIZE)]
     scores = [conflicts(b) for b in population]   # conflits calculés une seule fois par individu
