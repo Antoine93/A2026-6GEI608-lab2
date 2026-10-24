@@ -16,6 +16,13 @@ def tournament_selection(population, fitness_fn, k):
     return min(candidates, key=fitness_fn)
 
 
+# crossover par lignes : lignes 0 à c-1 du parent 1, lignes c à 8 du parent 2
+# les lignes restent entières, donc valides, et les cases données sont conservées
+def crossover(parent1, parent2):
+    c = random.randint(1, 8)
+    return parent1[:9 * c] + parent2[9 * c:]
+
+
 # temporaire : main_sudoku.py importe cette fonction
 def genetic_algorithm(puzzle):
     raise NotImplementedError("algorithme génétique en cours d'écriture")
