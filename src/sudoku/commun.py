@@ -30,6 +30,11 @@ def get_fixed(puzzle: list[str]) -> list[bool]:
 #fixed  :  [False, False, False, False, True, False, True, False, False, ...]
 
 
+# True : fill_rows n'utilise que les chiffres permis par les cases données (allowed_digits) ;
+# False : remplissage uniforme d'origine (chiffres manquants de chaque ligne placés au hasard, sans regarder colonnes et blocs)
+USE_ALLOWED_DIGITS = True
+
+
 # chiffres permis dans chaque case vide : ceux qui ne sont pas déjà donnés dans sa colonne ni dans son bloc
 # (la ligne est gérée par fill_rows, qui ne place que les chiffres manquants de la ligne)
 # seuls les conflits avec les cases DONNÉES sont évités : ils sont certains, car une case donnée ne bouge jamais
@@ -62,10 +67,19 @@ def place_row(board, cells, missing, allowed):
 
 # remplit chaque ligne avec les chiffres manquants (placés au hasard dans les cases vides)
 # les cases fixes ne sont pas modifiées, donc chaque ligne contient les chiffres 1 à 9 une seule fois
-# aucun chiffre n'est placé dans une colonne ou un bloc qui le contient déjà comme case DONNÉE (allowed_digits)
+# si USE_ALLOWED_DIGITS : aucun chiffre n'est placé dans une colonne ou un bloc qui le contient déjà comme case DONNÉE
 # ce board sera un point de départ (hill climbing) et population initiale (génétique)
 def fill_rows(puzzle: list[str]) -> list[str]:
     board = puzzle[:]
+    if not USE_ALLOWED_DIGITS:
+        # remplissage uniforme d'origine
+        for row in ROWS:
+            missing = [d for d in "123456789" if d not in [board[i] for i in row]]
+            random.shuffle(missing)
+            for i in row:
+                if board[i] == BLANK:
+                    board[i] = missing.pop()
+        return board
     allowed = allowed_digits(puzzle)
     for row in ROWS:
         missing = {d for d in "123456789" if d not in [board[i] for i in row]}
