@@ -11,8 +11,6 @@ from .commun import ROWS, get_fixed, fill_rows, conflicts
 # paramètres de l'algorithme
 POP_SIZE = 50000            # nombre d'individus par génération
 TRUNCATION_QUANTILE = 0.95 # seuil, de 0.0 à 1.0 : seuls les individus au plus à ce quantile des scores sont parents (0.5 = médiane)
-MATING_TOLERANCE = None      # accouplement assortatif : le 2e parent a un score à ± MATING_TOLERANCE du 1er
-                          # (0 = même score exactement ; None = désactivé, 2e parent au hasard parmi les admissibles)
 MUTATION_RATE = 0.01       # probabilité qu'un enfant soit muté
 MUTATION_SWAP_RATE = 1.0 # fraction des cases modifiables touchées par une mutation, de 0.0 à 1.0 (1.0 = toutes en moyenne)
                           # nombre d'échanges = taux × cases modifiables ÷ 2 (un échange touche 2 cases), au moins 1
@@ -53,26 +51,6 @@ def quantile(scores, q):
 # parents admissibles : indices des individus dont le score est au plus le seuil (égalités au seuil incluses)
 def eligible_parents(scores, threshold):
     return [i for i, s in enumerate(scores) if s <= threshold]
-
-
-# admissibles regroupés par score, une fois par génération : score -> indices
-def group_by_score(indices, scores):
-    groups = {}
-    for i in indices:
-        groups.setdefault(scores[i], []).append(i)
-    return groups
-
-
-# accouplement assortatif : 2e parent tiré uniformément parmi les admissibles dont le score est à ± tolerance de score ;
-# on choisit d'abord un niveau de score au prorata de sa taille, puis un individu dans ce niveau (même résultat
-# qu'un tirage uniforme dans la fenêtre, sans construire la liste) ; fenêtre vide → impossible ici (score lui-même inclus)
-def assortative_mate(groups, score, tolerance):
-    window = [(s, groups[s]) for s in range(score - tolerance, score + tolerance + 1) if s in groups]
-    r = random.randrange(sum(len(members) for _, members in window))
-    for _, members in window:
-        if r < len(members):
-            return members[r]
-        r -= len(members)
 
 
 # diversité réelle : nombre moyen de cases différentes entre deux individus, estimé sur un échantillon de paires
@@ -153,7 +131,7 @@ def genetic_algorithm(puzzle):
     cross = crossover_uniform if CROSSOVER == "uniform" else crossover
 
     logger.info(f"début : population={POP_SIZE}, troncature au quantile {TRUNCATION_QUANTILE}, "
-                f"accouplement assortatif ± {MATING_TOLERANCE}, crossover={CROSSOVER}, "
+                f"crossover={CROSSOVER}, "
                 f"mutation={MUTATION_RATE} ({swaps} échange(s) = {MUTATION_SWAP_RATE} × {modifiable} cases ÷ 2), "
                 f"max={MAX_GENERATIONS}, meilleur initial={record} conflits")
 
@@ -161,16 +139,11 @@ def genetic_algorithm(puzzle):
         # troncature : seuil = quantile des scores ; les parents sont tirés uniformément parmi les admissibles
         threshold = quantile(scores, TRUNCATION_QUANTILE)
         parents = eligible_parents(scores, threshold)
-        groups = group_by_score(parents, scores) if MATING_TOLERANCE is not None else None
         next_generation = []
         mutations = 0
         for _ in range(POP_SIZE):
-            i1 = random.choice(parents)
-            if MATING_TOLERANCE is None:
-                i2 = random.choice(parents)
-            else:
-                i2 = assortative_mate(groups, scores[i1], MATING_TOLERANCE)
-            parent1, parent2 = population[i1], population[i2]
+            parent1 = population[random.choice(parents)]
+            parent2 = population[random.choice(parents)]
             child = cross(parent1, parent2)
             if random.random() < MUTATION_RATE:
                 child = mutate(child, rows, swaps)
