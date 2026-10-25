@@ -1,2 +1,0 @@
-- Implémentation Genetic [à implémenter]
-- Fichier de sortie à mettre dans dossier results (genetic) , reprendre le format du lab 1 (temps d'exécution et nombre d'itérations).
