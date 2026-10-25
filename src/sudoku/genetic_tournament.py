@@ -10,6 +10,7 @@ from .commun import ROWS, get_fixed, fill_rows, conflicts
 # paramètres de l'algorithme
 POP_SIZE = 20000            # nombre d'individus par génération
 TOURNAMENT_K = 2          # nombre de candidats par tournoi
+TOURNAMENT_P = 0.8        # probabilité que le meilleur candidat gagne (1.0 = tournoi classique)
 MUTATION_RATE = 0.3       # probabilité qu'un enfant soit muté
 MUTATION_SWAPS = 10        # nombre d'échanges par mutation
 MAX_GENERATIONS = 5000    # arrêt (échec) si aucune solution avant
@@ -36,11 +37,15 @@ if not logger.handlers:
     logger.addHandler(handler)
 
 
-# sélection par tournoi : tire k individus au hasard et retourne celui dont la fitness est la plus petite
-# (fitness à minimiser, ex. conflicts)
-def tournament_selection(population, fitness_fn, k):
-    candidates = random.sample(population, k)
-    return min(candidates, key=fitness_fn)
+# sélection par tournoi probabiliste : tire k individus, les classe du meilleur au pire (fitness à minimiser) ;
+# le meilleur gagne avec une probabilité p, sinon le suivant avec p, etc. ; le dernier gagne si aucun n'a été retenu
+# avec p = 1.0, c'est le tournoi classique (le meilleur gagne toujours)
+def tournament_selection(population, fitness_fn, k, p=1.0):
+    candidates = sorted(random.sample(population, k), key=fitness_fn)
+    for candidate in candidates[:-1]:
+        if random.random() < p:
+            return candidate
+    return candidates[-1]
 
 
 # crossover par lignes : lignes 0 à c-1 du parent 1, lignes c à 8 du parent 2
@@ -95,7 +100,7 @@ def genetic_algorithm(puzzle):
 
     cross = crossover_uniform if CROSSOVER == "uniform" else crossover
 
-    logger.info(f"début : population={POP_SIZE}, k={TOURNAMENT_K}, crossover={CROSSOVER}, "
+    logger.info(f"début : population={POP_SIZE}, k={TOURNAMENT_K}, p={TOURNAMENT_P}, crossover={CROSSOVER}, "
                 f"mutation={MUTATION_RATE} ({MUTATION_SWAPS} échange(s)), "
                 f"max={MAX_GENERATIONS}, meilleur initial={record} conflits")
 
@@ -105,8 +110,8 @@ def genetic_algorithm(puzzle):
         next_generation = []
         mutations = 0
         for _ in range(POP_SIZE):
-            parent1 = population[tournament_selection(range(POP_SIZE), score_of, TOURNAMENT_K)]
-            parent2 = population[tournament_selection(range(POP_SIZE), score_of, TOURNAMENT_K)]
+            parent1 = population[tournament_selection(range(POP_SIZE), score_of, TOURNAMENT_K, TOURNAMENT_P)]
+            parent2 = population[tournament_selection(range(POP_SIZE), score_of, TOURNAMENT_K, TOURNAMENT_P)]
             child = cross(parent1, parent2)
             if random.random() < MUTATION_RATE:
                 child = mutate(child, rows, MUTATION_SWAPS)
