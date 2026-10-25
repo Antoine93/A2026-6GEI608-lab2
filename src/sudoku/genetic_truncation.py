@@ -13,8 +13,8 @@ POP_SIZE = 50000            # nombre d'individus par génération
 TRUNCATION_QUANTILE = 0.95 # seuil, de 0.0 à 1.0 : seuls les individus au plus à ce quantile des scores sont parents (0.5 = médiane)
 MATING_TOLERANCE = None      # accouplement assortatif : le 2e parent a un score à ± MATING_TOLERANCE du 1er
                           # (0 = même score exactement ; None = désactivé, 2e parent au hasard parmi les admissibles)
-MUTATION_RATE = 0.02       # probabilité qu'un enfant soit muté
-MUTATION_SWAP_RATE = 0.5 # fraction des cases modifiables touchées par une mutation, de 0.0 à 1.0 (1.0 = toutes en moyenne)
+MUTATION_RATE = 0.01       # probabilité qu'un enfant soit muté
+MUTATION_SWAP_RATE = 1.0 # fraction des cases modifiables touchées par une mutation, de 0.0 à 1.0 (1.0 = toutes en moyenne)
                           # nombre d'échanges = taux × cases modifiables ÷ 2 (un échange touche 2 cases), au moins 1
 MAX_GENERATIONS = 50000    # arrêt (échec) si aucune solution avant
 CROSSOVER = "uniform"     # "uniform" : chaque ligne vient au hasard de P1 ou de P2 ; "one_point" : une coupe entre deux lignes
