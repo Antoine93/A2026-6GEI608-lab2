@@ -19,7 +19,7 @@ N_RUNS = 1
 
 # affichage : logging.INFO = présentation des résultats (paramètres, redémarrages, résultat final, grilles) ;
 # logging.DEBUG = en plus, détail de chaque itération ; logging.WARNING = rien (pour les mesures de temps)
-LOG_LEVEL = logging.DEBUG
+LOG_LEVEL = logging.INFO
 LOG_EVERY = 100         # en DEBUG, une ligne de résumé toutes les LOG_EVERY générations
 
 # chaque message affiche le temps écoulé depuis le début de l'exécution (remis à zéro par genetic_algorithm)
