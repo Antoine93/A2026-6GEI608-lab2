@@ -1,6 +1,6 @@
-# Algorithme MÉMÉTIQUE (hybride génétique + recherche locale) : genetic_truncation.py + quelques pas de hill climbing
+# Algorithme MÉMÉTIQUE (hybride génétique + hill climbing) : genetic_truncation.py + quelques pas de hill climbing
 # appliqués à une fraction des enfants avant leur entrée dans la population
-# le génétique explore (sélection par troncature uniforme, crossover, mutation) ; la recherche locale « finit » les enfants
+# le génétique explore (sélection par troncature uniforme, crossover, mutation) ; le hill climbing (une recherche locale) « finit » les enfants
 # (derniers échanges précis que le génétique seul ne trouve pas) ; à présenter comme un hybride, pas comme un génétique pur
 import logging
 import random
@@ -16,9 +16,9 @@ MUTATION_SWAP_RATE = 0.2    # fraction des cases modifiables touchées par une m
                             # nombre d'échanges = taux × cases modifiables ÷ 2 (un échange touche 2 cases), au moins 1
 MAX_GENERATIONS = 50000     # arrêt (échec) si aucune solution avant
 
-# recherche locale (partie mémétique)
-LOCAL_SEARCH_RATE = 0.1     # fraction des enfants qui reçoivent la recherche locale (0 = génétique pur)
-LOCAL_SEARCH_STEPS = 5      # pas de hill climbing au plus par enfant (arrêt plus tôt si aucun voisin n'est meilleur)
+# hill climbing (partie mémétique ; même voisinage que hill_climbing.py)
+HILL_CLIMBING_RATE = 0.1    # fraction des enfants qui reçoivent le hill climbing (0 = génétique pur)
+HILL_CLIMBING_STEPS = 5     # pas de hill climbing au plus par enfant (arrêt plus tôt si aucun voisin n'est meilleur)
 
 # redémarrage : si le meilleur score de l'essai en cours n'a pas été battu depuis RESTART_STAGNATION générations,
 # l'essai est jugé bloqué et on recrée toute la population (critère insensible aux quelques grilles très mutées,
@@ -112,10 +112,10 @@ def mutate(board, rows, swaps=1):
     return child
 
 
-# recherche locale : jusqu'à steps pas de hill climbing ; un pas teste tous les échanges de deux cases modifiables
+# hill climbing : jusqu'à steps pas ; un pas teste tous les échanges de deux cases modifiables
 # d'une même ligne et garde le meilleur s'il réduit les conflits (égalités départagées au hasard) ; sinon on s'arrête
 # retourne (grille améliorée, ses conflits)
-def local_search(board, rows, steps):
+def hill_climb(board, rows, steps):
     board = board[:]
     cost = conflicts(board)
     for _ in range(steps):
@@ -161,7 +161,7 @@ def genetic_algorithm(puzzle):
     overall_best = population[scores.index(record)]   # meilleure grille vue (le meilleur peut disparaître d'une génération à l'autre)
 
     logger.info(f"début : population={POP_SIZE}, troncature au quantile {TRUNCATION_QUANTILE}, crossover uniforme, "
-                f"recherche locale sur {LOCAL_SEARCH_RATE} des enfants ({LOCAL_SEARCH_STEPS} pas max), "
+                f"hill climbing sur {HILL_CLIMBING_RATE} des enfants ({HILL_CLIMBING_STEPS} pas max), "
                 f"redémarrage après {RESTART_STAGNATION} générations sans progrès, "
                 f"mutation={MUTATION_RATE} ({swaps} échange(s) = {MUTATION_SWAP_RATE} × {modifiable} cases ÷ 2), "
                 f"max={MAX_GENERATIONS}, meilleur initial={record} conflits")
@@ -180,9 +180,9 @@ def genetic_algorithm(puzzle):
             if random.random() < MUTATION_RATE:
                 child = mutate(child, rows, swaps)
                 mutations += 1
-            if random.random() < LOCAL_SEARCH_RATE:
+            if random.random() < HILL_CLIMBING_RATE:
                 before = conflicts(child)
-                child, cost = local_search(child, rows, LOCAL_SEARCH_STEPS)
+                child, cost = hill_climb(child, rows, HILL_CLIMBING_STEPS)
                 searched += 1
                 if cost < before:
                     improved += 1
@@ -210,7 +210,7 @@ def genetic_algorithm(puzzle):
         if logger.isEnabledFor(logging.DEBUG):
             logger.debug(f"génération {generation} : meilleur={best_score}, moyenne={sum(scores) / POP_SIZE:.1f}, "
                          f"pire={max(scores)}, seuil={threshold}, parents admissibles={len(parents)}, mutations={mutations}, "
-                         f"recherche locale={searched} enfants ({improved} améliorés, gain moyen "
+                         f"hill climbing={searched} enfants ({improved} améliorés, gain moyen "
                          f"{gain / improved if improved else 0:.1f} conflits), "
                          f"distance moyenne={distance:.1f}/{modifiable}, stagnation={stagnation}, "
                          f"redémarrages={restart_count}")
