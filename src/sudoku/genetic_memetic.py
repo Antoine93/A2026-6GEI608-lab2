@@ -11,8 +11,8 @@ from .commun import ROWS, get_fixed, fill_rows, conflicts
 # paramètres de l'algorithme
 POP_SIZE = 500            # nombre d'individus par génération (petit : chaque enfant coûte plus cher)
 TRUNCATION_QUANTILE = 0.95 # seuil, de 0.0 à 1.0 : seuls les individus au plus à ce quantile des scores sont parents (0.5 = médiane)
-MUTATION_RATE = 0.01       # probabilité qu'un enfant soit muté
-MUTATION_SWAP_RATE = 1.0 # fraction des cases modifiables touchées par une mutation, de 0.0 à 1.0 (1.0 = toutes en moyenne)
+MUTATION_RATE = 0.1       # probabilité qu'un enfant soit muté
+MUTATION_SWAP_RATE = 0.1 # fraction des cases modifiables touchées par une mutation, de 0.0 à 1.0 (1.0 = toutes en moyenne)
                           # nombre d'échanges = taux × cases modifiables ÷ 2 (un échange touche 2 cases), au moins 1
 MAX_GENERATIONS = 50000    # arrêt (échec) si aucune solution avant
 
