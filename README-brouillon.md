@@ -196,7 +196,7 @@ Hill climbing à **montée la plus raide** (*steepest ascent*), adapté d'aima-p
 4. **Optimum local :** si aucun voisin n'est strictement meilleur (optimum local ou plateau), on **redémarre** d'une nouvelle grille `fill_rows` et on compte un redémarrage. C'est la solution proposée en cours contre les optimums locaux : réexécuter avec plusieurs initialisations aléatoires.
 5. **Arrêt :** à la solution (0 conflit), ou après `MAX_ITERATIONS = 100 000` itérations, redémarrages compris (≈ 350 itérations par seconde, soit ≈ 5 min au plus). En cas d'échec, on retourne la **meilleure grille vue** sur toute l'exécution, et non la grille courante (qui peut être une grille aléatoire juste après un redémarrage).
 
-**Sorties.** Le nombre d'itérations compte tous les pas, redémarrages compris ; le fichier de résultats donne les conflits de l'état courant à chaque itération (la courbe remonte à chaque redémarrage) et le nombre de redémarrages.
+**Une itération** est l'évaluation de tout le voisinage de l'état courant, suivie d'un déplacement vers le meilleur voisin ou d'un redémarrage. Le nombre d'itérations compte donc aussi les redémarrages (sur 20 000 itérations, environ 1 000 sont des redémarrages). Le fichier de résultats donne les conflits de l'état courant à chaque itération (la courbe remonte à chaque redémarrage) et le nombre de redémarrages.
 
 **Comportement observé.**
 - Une montée depuis une grille aléatoire atteint un optimum local en une vingtaine de pas environ, puis l'algorithme redémarre ; les optimums locaux se situent le plus souvent entre 2 et 8 conflits.
@@ -210,6 +210,8 @@ Hill climbing à **montée la plus raide** (*steepest ascent*), adapté d'aima-p
 ### Algorithmes génétiques
 
 Les trois versions partagent la représentation, la fitness (`conflicts`, à minimiser), le crossover et la mutation ; elles diffèrent par la sélection et par les mécanismes ajoutés. Toutes s'arrêtent à la solution ou après `MAX_GENERATIONS` générations, et retournent la meilleure grille vue sur toute l'exécution (pas seulement celle de la dernière génération).
+
+**Une itération** correspond à une **génération** : la création de `POP_SIZE` enfants (sélection, crossover, mutation, et hill climbing pour une partie des enfants dans `genetic_hc`) qui remplacent la population. Une génération coûte donc beaucoup plus cher qu'une itération du hill climbing : les nombres d'itérations ne se comparent pas d'un algorithme à l'autre, seuls les temps et les taux de succès le permettent.
 
 - **Population initiale :** `POP_SIZE` grilles `fill_rows`.
 - **Fitness :** nombre de paires en conflit, à minimiser. Les deux sélections ne font que comparer les scores : aucune transformation en valeur positive n'est nécessaire.
