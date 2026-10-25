@@ -30,17 +30,48 @@ def get_fixed(puzzle: list[str]) -> list[bool]:
 #fixed  :  [False, False, False, False, True, False, True, False, False, ...]
 
 
+# chiffres permis dans chaque case vide : ceux qui ne sont pas déjà donnés dans sa colonne ni dans son bloc
+# (la ligne est gérée par fill_rows, qui ne place que les chiffres manquants de la ligne)
+# seuls les conflits avec les cases DONNÉES sont évités : ils sont certains, car une case donnée ne bouge jamais
+def allowed_digits(puzzle: list[str]) -> list[set[str]]:
+    col_of = [[c for c in COLS if i in c][0] for i in range(81)]
+    box_of = [[b for b in BOXES if i in b][0] for i in range(81)]
+    allowed = []
+    for i in range(81):
+        given = {puzzle[j] for j in col_of[i] + box_of[i] if puzzle[j] != BLANK}
+        allowed.append(set("123456789") - given)
+    return allowed
+
+
+# place au hasard les chiffres manquants d'une ligne dans ses cases vides, en respectant les chiffres permis
+# (petit retour arrière : la case la plus contrainte d'abord, chiffres essayés dans un ordre aléatoire)
+def place_row(board, cells, missing, allowed):
+    if not cells:
+        return True
+    cells = sorted(cells, key=lambda i: len(allowed[i] & missing))
+    i, rest = cells[0], cells[1:]
+    options = list(allowed[i] & missing)
+    random.shuffle(options)
+    for d in options:
+        board[i] = d
+        if place_row(board, rest, missing - {d}, allowed):
+            return True
+    board[i] = BLANK
+    return False
+
+
 # remplit chaque ligne avec les chiffres manquants (placés au hasard dans les cases vides)
 # les cases fixes ne sont pas modifiées, donc chaque ligne contient les chiffres 1 à 9 une seule fois
+# aucun chiffre n'est placé dans une colonne ou un bloc qui le contient déjà comme case DONNÉE (allowed_digits)
 # ce board sera un point de départ (hill climbing) et population initiale (génétique)
 def fill_rows(puzzle: list[str]) -> list[str]:
     board = puzzle[:]
+    allowed = allowed_digits(puzzle)
     for row in ROWS:
-        missing = [d for d in "123456789" if d not in [board[i] for i in row]]
-        random.shuffle(missing)
-        for i in row:
-            if board[i] == BLANK:
-                board[i] = missing.pop()
+        missing = {d for d in "123456789" if d not in [board[i] for i in row]}
+        cells = [i for i in row if board[i] == BLANK]
+        if not place_row(board, cells, missing, allowed):
+            raise ValueError("aucun remplissage de ligne compatible avec les cases données : puzzle impossible")
     return board
 
 
