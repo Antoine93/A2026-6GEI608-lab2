@@ -1,6 +1,5 @@
-# Algorithme génétique à sélection par tournoi, version de base (structure inspirée de aima-python, Figure 4.8)
-# version augmentée (élitisme + mutation adaptative) : genetic_adaptive.py
-# ancienne version AIMA non adaptée : genetic_aima.py
+# Algorithme génétique à sélection par tournoi, version de base
+# adapté du code du livre (Russell et Norvig, AIMA, Figure 4.8 ; aima-python, search.py : genetic_algorithm)
 import logging
 import random
 import time
