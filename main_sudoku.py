@@ -43,7 +43,7 @@ if __name__ == '__main__':
     print_board(puzzle)
 
     # paramétrage du nombre de répétitions
-    N_RUNS = 10
+    N_RUNS = 1
     total_time = 0.0
     result = None
     iterations = 0
