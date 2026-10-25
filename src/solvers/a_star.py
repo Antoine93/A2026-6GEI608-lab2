@@ -64,11 +64,11 @@ def solve_puzzle_a_star(start,x,y):
     heapq.heappush(open_list, PuzzleState(start_state, None, None, 0, heuristic(start_state)))
 
     iterations = 0
-    frontier_sizes = []
+    frontier_sizes = []           # par itération : (taille de la frontière, taille de la liste des états explorés)
 
     while open_list:
-        # Ajouter la taille de la frontière à chaque itération
-        frontier_sizes.append(len(open_list))
+        # à chaque itération : taille de la frontière (open_list) et de la liste des états explorés (closed_list)
+        frontier_sizes.append((len(open_list), len(closed_list)))
 
         current_state = heapq.heappop(open_list)
 
