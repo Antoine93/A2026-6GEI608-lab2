@@ -1,0 +1,28 @@
+[INFO     0.0 s] ===== genetic_truncation sur Sudoku-01-simple.txt (lancement 20261025-101920, exécution 3/10) =====
+[INFO     0.0 s] grille de départ :
+. . . | . 5 . | 9 . .
+5 3 . | . . . | . . .
+. . . | . . . | 6 . 4
+------+-------+------
+8 . 9 | . . . | . 4 .
+. . . | . . . | . . .
+3 2 . | 1 . . | . . 9
+------+-------+------
+. 1 . | 5 3 . | . 2 8
+. 6 . | 8 . . | 4 . .
+. . 8 | 2 . . | . 6 .
+[INFO     0.5 s] début : population=1000, troncature au quantile 0.95, crossover uniforme, mutation=0.01 (28 échange(s) = 1.0 × 57 cases ÷ 2), max=5000, meilleur initial=23 conflits
+[INFO   100.5 s] échec : 5000 générations atteintes, meilleur=8 conflits
+[INFO   100.5 s] résultat : échec (8 conflits restants), temps=100.53 s, itérations=5000, redémarrages=0
+[INFO   100.5 s] grille obtenue :
+6 8 1 | 4 5 2 | 9 7 3
+5 3 7 | 6 4 9 | 2 8 1
+1 9 2 | 3 8 7 | 6 5 4
+------+-------+------
+8 5 9 | 7 2 3 | 1 4 6
+1 7 6 | 9 4 8 | 5 3 2
+3 2 4 | 1 6 5 | 8 7 9
+------+-------+------
+9 1 4 | 5 3 6 | 7 2 8
+2 6 3 | 8 7 1 | 4 9 5
+7 5 8 | 2 9 4 | 3 6 1

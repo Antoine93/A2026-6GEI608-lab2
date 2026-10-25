@@ -1,0 +1,23 @@
+algorithme : genetic_truncation
+lancement : 20261025-101920
+puzzle : Sudoku-01-simple.txt
+exécutions : 10
+résolues : 0/10 (0 %)
+
+exécution	temps (s)	itérations	redémarrages	conflits restants
+1	101.350	5000	0	10
+2	101.206	5000	0	11
+3	100.534	5000	0	8
+4	103.634	5000	0	9
+5	100.980	5000	0	8
+6	98.410	5000	0	10
+7	100.724	5000	0	11
+8	99.369	5000	0	8
+9	100.205	5000	0	13
+10	99.991	5000	0	11
+
+toutes les exécutions :
+  temps (s)    : moyenne=100.64, écart-type=1.38, min=98.41, max=103.63
+  itérations   : moyenne=5000.00, écart-type=0.00, min=5000.00, max=5000.00
+  redémarrages : moyenne=0.00, écart-type=0.00, min=0.00, max=0.00
+  conflits     : moyenne=9.90, écart-type=1.66, min=8.00, max=13.00

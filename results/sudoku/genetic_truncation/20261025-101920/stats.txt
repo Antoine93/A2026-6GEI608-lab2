@@ -1,0 +1,17 @@
+algorithme : genetic_truncation
+lancement : 20261025-101920
+exécutions par puzzle : 10
+
+puzzle	résolues	temps moyen (s)	itérations moyennes
+Sudoku-01-simple	0/10	100.640	5000.0
+Sudoku-02-simple	0/10	102.146	5000.0
+Sudoku-03-easy	0/10	102.003	5000.0
+Sudoku-04-easy	0/10	103.358	5000.0
+Sudoku-05-intermediate	0/10	134.933	5000.0
+Sudoku-06-intermediate	0/10	103.044	5000.0
+Sudoku-07-expert	0/10	105.290	5000.0
+Sudoku-08-expert	0/10	103.307	5000.0
+Sudoku-09-easy	0/10	105.239	5000.0
+Sudoku-10-easy	0/10	104.528	5000.0
+
+total : 0/100 résolues (0 %)

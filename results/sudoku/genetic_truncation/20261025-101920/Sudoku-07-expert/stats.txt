@@ -1,0 +1,23 @@
+algorithme : genetic_truncation
+lancement : 20261025-101920
+puzzle : Sudoku-07-expert.txt
+exécutions : 10
+résolues : 0/10 (0 %)
+
+exécution	temps (s)	itérations	redémarrages	conflits restants
+1	104.360	5000	0	6
+2	104.331	5000	0	5
+3	104.474	5000	0	2
+4	105.394	5000	0	6
+5	110.463	5000	0	4
+6	106.086	5000	0	4
+7	104.987	5000	0	6
+8	104.252	5000	0	7
+9	104.771	5000	0	6
+10	103.778	5000	0	2
+
+toutes les exécutions :
+  temps (s)    : moyenne=105.29, écart-type=1.93, min=103.78, max=110.46
+  itérations   : moyenne=5000.00, écart-type=0.00, min=5000.00, max=5000.00
+  redémarrages : moyenne=0.00, écart-type=0.00, min=0.00, max=0.00
+  conflits     : moyenne=4.80, écart-type=1.75, min=2.00, max=7.00
