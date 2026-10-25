@@ -62,7 +62,7 @@ if __name__ == '__main__':
         print(f"Nombre de redémarrages (dernière exécution) : {restart_count}")
 
         path = output_path("results/sudoku", algo, filename, run)
-        write_run_file(path, costs, iterations, end_time - start_time)
+        write_run_file(path, costs, iterations, end_time - start_time, restart_count)
 
     average_time = total_time / N_RUNS
     print(f"Temps d'exécution moyen sur {N_RUNS} essais : {average_time:.6f} secondes")

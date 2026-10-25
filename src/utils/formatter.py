@@ -3,7 +3,8 @@
 import os
 
 # écrit le fichier de sortie d'une exevution
-def write_run_file( output_file, frontier_sizes, explored, elapsed_time):
+# une ligne « itération<TAB>valeur » par itération, puis le nombre d'itérations, le temps, et (si fourni) les redémarrages
+def write_run_file( output_file, frontier_sizes, explored, elapsed_time, restart_count=None):
     os.makedirs(os.path.dirname(output_file), exist_ok=True)
 
     with open(output_file, 'w', encoding='utf-8') as f:
@@ -12,6 +13,8 @@ def write_run_file( output_file, frontier_sizes, explored, elapsed_time):
 
         f.write(f"{explored}\n")
         f.write(f"{elapsed_time}\n")
+        if restart_count is not None:
+            f.write(f"{restart_count}\n")
 
 # construit le chemin complet du fichier de sortie
 def output_path(base_path, algo, input_file, run):
