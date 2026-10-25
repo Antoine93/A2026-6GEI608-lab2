@@ -1,0 +1,26 @@
+algorithme : hill_climbing
+lancement : 20261025-113114
+puzzle : Sudoku-07-expert.txt
+exécutions : 10
+résolues : 10/10 (100 %)
+
+exécution	temps (s)	itérations	redémarrages	conflits restants
+1	60.994	24137	2138	0
+2	9.010	3633	319	0
+3	34.404	13709	1210	0
+4	2.177	874	79	0
+5	8.992	3555	315	0
+6	24.339	9722	868	0
+7	72.939	29196	2573	0
+8	29.650	10887	954	0
+9	0.936	342	29	0
+10	30.676	12298	1084	0
+
+toutes les exécutions :
+  temps (s)    : moyenne=27.41, écart-type=24.24, min=0.94, max=72.94
+  itérations   : moyenne=10835.30, écart-type=9660.36, min=342.00, max=29196.00
+  redémarrages : moyenne=956.90, écart-type=852.81, min=29.00, max=2573.00
+  conflits     : moyenne=0.00, écart-type=0.00, min=0.00, max=0.00
+exécutions résolues seulement :
+  temps (s)    : moyenne=27.41, écart-type=24.24, min=0.94, max=72.94
+  itérations   : moyenne=10835.30, écart-type=9660.36, min=342.00, max=29196.00

@@ -1,0 +1,26 @@
+algorithme : hill_climbing
+lancement : 20261025-113114
+puzzle : Sudoku-02-simple.txt
+exécutions : 10
+résolues : 10/10 (100 %)
+
+exécution	temps (s)	itérations	redémarrages	conflits restants
+1	5.290	2081	220	0
+2	34.447	13605	1431	0
+3	2.772	1122	119	0
+4	14.116	5692	605	0
+5	0.548	221	21	0
+6	11.163	4505	482	0
+7	2.259	836	86	0
+8	18.307	7301	771	0
+9	23.517	8714	919	0
+10	50.253	20219	2146	0
+
+toutes les exécutions :
+  temps (s)    : moyenne=16.27, écart-type=16.05, min=0.55, max=50.25
+  itérations   : moyenne=6429.60, écart-type=6401.18, min=221.00, max=20219.00
+  redémarrages : moyenne=680.00, écart-type=677.97, min=21.00, max=2146.00
+  conflits     : moyenne=0.00, écart-type=0.00, min=0.00, max=0.00
+exécutions résolues seulement :
+  temps (s)    : moyenne=16.27, écart-type=16.05, min=0.55, max=50.25
+  itérations   : moyenne=6429.60, écart-type=6401.18, min=221.00, max=20219.00
