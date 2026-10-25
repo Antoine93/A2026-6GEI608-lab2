@@ -15,7 +15,6 @@ MUTATION_RATE = 0.01       # probabilité qu'un enfant soit muté
 MUTATION_SWAP_RATE = 1.0 # fraction des cases modifiables touchées par une mutation, de 0.0 à 1.0 (1.0 = toutes en moyenne)
                           # nombre d'échanges = taux × cases modifiables ÷ 2 (un échange touche 2 cases), au moins 1
 MAX_GENERATIONS = 50000    # arrêt (échec) si aucune solution avant
-CROSSOVER = "uniform"     # "uniform" : chaque ligne vient au hasard de P1 ou de P2 ; "one_point" : une coupe entre deux lignes
 
 # recherche locale (partie mémétique)
 LOCAL_SEARCH_RATE = 0.1   # fraction des enfants qui reçoivent la recherche locale (0 = génétique pur)
@@ -80,13 +79,6 @@ def frozen_ratio(population, cells, threshold):
         if max(counts.values()) >= threshold * len(population):
             frozen += 1
     return 100 * frozen / len(cells)
-
-
-# crossover par lignes : lignes 0 à c-1 du parent 1, lignes c à 8 du parent 2
-# les lignes restent entières, donc valides, et les cases données sont conservées
-def crossover(parent1, parent2):
-    c = random.randint(1, 8)
-    return parent1[:9 * c] + parent2[9 * c:]
 
 
 # crossover uniforme par lignes (adapté de recombine_uniform d'AIMA) : chaque ligne vient au hasard de P1 ou de P2
@@ -164,10 +156,7 @@ def genetic_algorithm(puzzle):
     restart_count = 0             # nombre de redémarrages de la population (population figée)
     overall_best = population[scores.index(record)]   # meilleure grille vue (le meilleur peut disparaître d'une génération à l'autre)
 
-    cross = crossover_uniform if CROSSOVER == "uniform" else crossover
-
-    logger.info(f"début : population={POP_SIZE}, troncature au quantile {TRUNCATION_QUANTILE}, "
-                f"crossover={CROSSOVER}, "
+    logger.info(f"début : population={POP_SIZE}, troncature au quantile {TRUNCATION_QUANTILE}, crossover uniforme, "
                 f"recherche locale sur {LOCAL_SEARCH_RATE} des enfants ({LOCAL_SEARCH_STEPS} pas max), "
                 f"redémarrage si distance < {RESTART_DISTANCE}, "
                 f"mutation={MUTATION_RATE} ({swaps} échange(s) = {MUTATION_SWAP_RATE} × {modifiable} cases ÷ 2), "
@@ -183,7 +172,7 @@ def genetic_algorithm(puzzle):
         for _ in range(POP_SIZE):
             parent1 = population[random.choice(parents)]
             parent2 = population[random.choice(parents)]
-            child = cross(parent1, parent2)
+            child = crossover_uniform(parent1, parent2)
             if random.random() < MUTATION_RATE:
                 child = mutate(child, rows, swaps)
                 mutations += 1

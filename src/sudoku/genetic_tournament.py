@@ -14,7 +14,6 @@ TOURNAMENT_P = 0.8        # probabilité que le meilleur candidat gagne (1.0 = t
 MUTATION_RATE = 0.3       # probabilité qu'un enfant soit muté
 MUTATION_SWAPS = 10        # nombre d'échanges par mutation
 MAX_GENERATIONS = 5000    # arrêt (échec) si aucune solution avant
-CROSSOVER = "uniform"     # "uniform" : chaque ligne vient au hasard de P1 ou de P2 ; "one_point" : une coupe entre deux lignes
 
 # affichage : logging.INFO = début, progression et fin ; logging.DEBUG = détail de chaque génération
 # logging.WARNING = rien (pour les mesures de temps)
@@ -46,13 +45,6 @@ def tournament_selection(population, fitness_fn, k, p=1.0):
         if random.random() < p:
             return candidate
     return candidates[-1]
-
-
-# crossover par lignes : lignes 0 à c-1 du parent 1, lignes c à 8 du parent 2
-# les lignes restent entières, donc valides, et les cases données sont conservées
-def crossover(parent1, parent2):
-    c = random.randint(1, 8)
-    return parent1[:9 * c] + parent2[9 * c:]
 
 
 # crossover uniforme par lignes (adapté de recombine_uniform d'AIMA) : chaque ligne vient au hasard de P1 ou de P2
@@ -98,9 +90,7 @@ def genetic_algorithm(puzzle):
     restart_count = 0             # pas de redémarrage : gardé pour le format de retour commun avec le hill climbing
     overall_best = population[scores.index(record)]   # meilleure grille vue (le meilleur peut disparaître d'une génération à l'autre)
 
-    cross = crossover_uniform if CROSSOVER == "uniform" else crossover
-
-    logger.info(f"début : population={POP_SIZE}, k={TOURNAMENT_K}, p={TOURNAMENT_P}, crossover={CROSSOVER}, "
+    logger.info(f"début : population={POP_SIZE}, k={TOURNAMENT_K}, p={TOURNAMENT_P}, crossover uniforme, "
                 f"mutation={MUTATION_RATE} ({MUTATION_SWAPS} échange(s)), "
                 f"max={MAX_GENERATIONS}, meilleur initial={record} conflits")
 
@@ -112,7 +102,7 @@ def genetic_algorithm(puzzle):
         for _ in range(POP_SIZE):
             parent1 = population[tournament_selection(range(POP_SIZE), score_of, TOURNAMENT_K, TOURNAMENT_P)]
             parent2 = population[tournament_selection(range(POP_SIZE), score_of, TOURNAMENT_K, TOURNAMENT_P)]
-            child = cross(parent1, parent2)
+            child = crossover_uniform(parent1, parent2)
             if random.random() < MUTATION_RATE:
                 child = mutate(child, rows, MUTATION_SWAPS)
                 mutations += 1
