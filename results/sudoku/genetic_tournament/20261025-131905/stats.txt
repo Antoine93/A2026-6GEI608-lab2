@@ -1,0 +1,17 @@
+algorithme : genetic_tournament
+lancement : 20261025-131905
+exécutions par puzzle : 10
+
+puzzle	résolues	temps moyen (s)	itérations moyennes
+Sudoku-01-simple	0/10	154.375	5000.0
+Sudoku-02-simple	0/10	153.891	5000.0
+Sudoku-03-easy	0/10	157.692	5000.0
+Sudoku-04-easy	0/10	149.957	5000.0
+Sudoku-05-intermediate	0/10	152.957	5000.0
+Sudoku-06-intermediate	0/10	150.657	5000.0
+Sudoku-07-expert	0/10	154.511	5000.0
+Sudoku-08-expert	0/10	153.777	5000.0
+Sudoku-09-easy	0/10	151.217	5000.0
+Sudoku-10-easy	0/10	151.486	5000.0
+
+total : 0/100 résolues (0 %)

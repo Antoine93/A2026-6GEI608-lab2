@@ -1,0 +1,28 @@
+[INFO     0.0 s] ===== genetic_tournament sur Sudoku-05-intermediate.txt (lancement 20261025-131905, exécution 7/10) =====
+[INFO     0.0 s] grille de départ :
+. . . | . . . | . 4 1
+. . 5 | . . . | 2 . .
+. 2 . | 7 . . | 6 . 9
+------+-------+------
+3 6 . | 1 . 7 | . . .
+9 . 2 | . 3 . | . . 6
+. . . | 4 . . | . . .
+------+-------+------
+. . . | . . 5 | . . 7
+. . . | 2 . . | 5 . .
+. 7 . | 9 . . | . 1 .
+[INFO     0.5 s] début : population=1000, k=2, p=0.8, crossover uniforme, mutation=0.3 (10 échange(s)), max=5000, meilleur initial=18 conflits
+[INFO   154.0 s] échec : 5000 générations atteintes, meilleur=18 conflits
+[INFO   154.0 s] résultat : échec (18 conflits restants), temps=154.03 s, itérations=5000, redémarrages=0
+[INFO   154.0 s] grille obtenue :
+6 8 9 | 3 5 2 | 7 4 1
+7 9 5 | 6 1 4 | 2 3 8
+4 2 3 | 7 8 1 | 6 5 9
+------+-------+------
+3 6 4 | 1 5 7 | 8 9 2
+9 1 2 | 5 3 8 | 4 7 6
+8 5 7 | 4 6 9 | 1 2 3
+------+-------+------
+1 8 3 | 6 4 5 | 9 2 7
+8 9 1 | 2 7 3 | 5 6 4
+5 7 4 | 9 8 6 | 3 1 2

@@ -1,0 +1,23 @@
+algorithme : genetic_tournament
+lancement : 20261025-131905
+puzzle : Sudoku-03-easy.txt
+exécutions : 10
+résolues : 0/10 (0 %)
+
+exécution	temps (s)	itérations	redémarrages	conflits restants
+1	149.958	5000	0	16
+2	153.465	5000	0	14
+3	167.625	5000	0	16
+4	167.049	5000	0	14
+5	160.580	5000	0	15
+6	161.886	5000	0	13
+7	155.400	5000	0	16
+8	157.602	5000	0	14
+9	153.022	5000	0	16
+10	150.334	5000	0	13
+
+toutes les exécutions :
+  temps (s)    : moyenne=157.69, écart-type=6.42, min=149.96, max=167.63
+  itérations   : moyenne=5000.00, écart-type=0.00, min=5000.00, max=5000.00
+  redémarrages : moyenne=0.00, écart-type=0.00, min=0.00, max=0.00
+  conflits     : moyenne=14.70, écart-type=1.25, min=13.00, max=16.00

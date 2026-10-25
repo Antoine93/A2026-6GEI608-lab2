@@ -1,0 +1,23 @@
+algorithme : genetic_tournament
+lancement : 20261025-131905
+puzzle : Sudoku-09-easy.txt
+exécutions : 10
+résolues : 0/10 (0 %)
+
+exécution	temps (s)	itérations	redémarrages	conflits restants
+1	152.424	5000	0	16
+2	149.819	5000	0	12
+3	150.910	5000	0	15
+4	149.806	5000	0	16
+5	148.785	5000	0	16
+6	151.714	5000	0	14
+7	149.005	5000	0	16
+8	151.972	5000	0	13
+9	151.998	5000	0	11
+10	155.733	5000	0	16
+
+toutes les exécutions :
+  temps (s)    : moyenne=151.22, écart-type=2.06, min=148.79, max=155.73
+  itérations   : moyenne=5000.00, écart-type=0.00, min=5000.00, max=5000.00
+  redémarrages : moyenne=0.00, écart-type=0.00, min=0.00, max=0.00
+  conflits     : moyenne=14.50, écart-type=1.90, min=11.00, max=16.00

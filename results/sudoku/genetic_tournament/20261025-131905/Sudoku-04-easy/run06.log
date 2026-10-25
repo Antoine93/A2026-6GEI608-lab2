@@ -1,0 +1,28 @@
+[INFO     0.0 s] ===== genetic_tournament sur Sudoku-04-easy.txt (lancement 20261025-131905, exécution 6/10) =====
+[INFO     0.0 s] grille de départ :
+3 . . | 1 . 6 | . . .
+. . . | . 8 . | 7 1 2
+. . 4 | . . . | . . .
+------+-------+------
+. . 9 | . . . | 2 7 .
+. . . | . . . | 4 6 .
+6 . 8 | . . . | 3 . 1
+------+-------+------
+. 2 . | 8 . . | 1 . .
+4 8 6 | . . . | . . .
+. . . | . . . | . . 4
+[INFO     0.5 s] début : population=1000, k=2, p=0.8, crossover uniforme, mutation=0.3 (10 échange(s)), max=5000, meilleur initial=19 conflits
+[INFO   150.1 s] échec : 5000 générations atteintes, meilleur=18 conflits
+[INFO   150.1 s] résultat : échec (18 conflits restants), temps=150.10 s, itérations=5000, redémarrages=0
+[INFO   150.1 s] grille obtenue :
+3 9 2 | 1 7 6 | 8 4 5
+9 6 5 | 3 8 4 | 7 1 2
+7 1 4 | 2 9 5 | 6 8 3
+------+-------+------
+5 4 9 | 6 1 3 | 2 7 8
+2 5 1 | 7 3 8 | 4 6 9
+6 7 8 | 2 4 9 | 3 5 1
+------+-------+------
+9 2 7 | 8 4 5 | 1 3 6
+4 8 6 | 3 2 1 | 5 9 7
+1 3 7 | 2 6 9 | 5 8 4
