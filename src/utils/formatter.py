@@ -8,7 +8,7 @@ def write_run_file( output_file, frontier_sizes, explored, elapsed_time):
 
     with open(output_file, 'w', encoding='utf-8') as f:
         for i, size in enumerate(frontier_sizes, start=1):
-            f.write(f"{i} \\t {size}\n")
+            f.write(f"{i}\t{size}\n")
 
         f.write(f"{explored}\n")
         f.write(f"{elapsed_time}\n")
