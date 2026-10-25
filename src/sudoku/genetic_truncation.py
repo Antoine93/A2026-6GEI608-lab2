@@ -14,7 +14,7 @@ TRUNCATION_QUANTILE = 0.95  # seuil, de 0.0 à 1.0 : seuls les individus au plus
 MUTATION_RATE = 0.01        # probabilité qu'un enfant soit muté
 MUTATION_SWAP_RATE = 1.0    # fraction des cases modifiables touchées par une mutation, de 0.0 à 1.0 (1.0 = toutes en moyenne)
                             # nombre d'échanges = taux × cases modifiables ÷ 2 (un échange touche 2 cases), au moins 1
-MAX_GENERATIONS = 1000      # arrêt (échec) si aucune solution avant
+MAX_GENERATIONS = 5000      # arrêt (échec) si aucune solution avant
 
 # nombre d'exécutions par puzzle quand le fichier est lancé directement (uv run -m src.sudoku.genetic_truncation <puzzle>)
 N_RUNS = 1
