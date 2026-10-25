@@ -2,13 +2,17 @@ import time
 
 from src.utils import parse_puzzle_file, write_run_file, output_path, is_solvable
 from src.solvers import solve_puzzle_bfs, solve_puzzle_dfs,solve_puzzle_ids, solve_puzzle_a_star, print_board, print_path, get_actions
+from src.solvers import misplaced_tiles, max_heuristic
 
 # ajout d'un dictionnaire pour mapper les algorithmes aux fonctions correspondantes
+# A* existe en trois variantes selon l'heuristique (chacune écrit dans son propre dossier de résultats)
 SOLVERS = {
     "bfs": solve_puzzle_bfs,
     "dfs": solve_puzzle_dfs,
     "ids": solve_puzzle_ids,
-    "a_star": solve_puzzle_a_star
+    "a_star": solve_puzzle_a_star,                                                    # distance de Manhattan
+    "a_star_misplaced": lambda m, x, y: solve_puzzle_a_star(m, x, y, misplaced_tiles), # tuiles mal placées
+    "a_star_max": lambda m, x, y: solve_puzzle_a_star(m, x, y, max_heuristic)          # max des deux
 }
 
 if __name__ == '__main__':
@@ -21,7 +25,7 @@ if __name__ == '__main__':
         exit(1)
 
     # demander à l'utilisateur quel algorithme utiliser
-    algo = input("Algorithme à utiliser (bfs, dfs, ids, a_star) : ").strip().lower()
+    algo = input("Algorithme à utiliser (bfs, dfs, ids, a_star, a_star_misplaced, a_star_max) : ").strip().lower()
     if algo not in SOLVERS:
         print(f" '{algo}' non reconnu. Veuillez choisir parmi : {', '.join(SOLVERS.keys())}.")
         exit(1)
