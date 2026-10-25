@@ -1,0 +1,26 @@
+algorithme : hill_climbing
+lancement : 20261025-113114
+puzzle : Sudoku-06-intermediate.txt
+exécutions : 10
+résolues : 4/10 (40 %)
+
+exécution	temps (s)	itérations	redémarrages	conflits restants
+1	221.601	83008	6691	0
+2	288.980	100000	8054	2
+3	271.441	100000	8052	2
+4	50.464	19141	1542	0
+5	267.105	100000	8091	2
+6	36.206	13828	1108	0
+7	258.396	100000	8085	2
+8	253.482	100000	8118	2
+9	266.017	100000	8089	2
+10	9.063	3259	265	0
+
+toutes les exécutions :
+  temps (s)    : moyenne=192.28, écart-type=112.38, min=9.06, max=288.98
+  itérations   : moyenne=71923.60, écart-type=41804.44, min=3259.00, max=100000.00
+  redémarrages : moyenne=5809.50, écart-type=3379.83, min=265.00, max=8118.00
+  conflits     : moyenne=1.20, écart-type=1.03, min=0.00, max=2.00
+exécutions résolues seulement :
+  temps (s)    : moyenne=79.33, écart-type=96.39, min=9.06, max=221.60
+  itérations   : moyenne=29809.00, écart-type=36075.08, min=3259.00, max=83008.00

@@ -1,0 +1,28 @@
+[INFO     0.0 s] ===== hill_climbing sur Sudoku-09-easy.txt (lancement 20261025-113114, exécution 4/10) =====
+[INFO     0.0 s] grille de départ :
+. . . | . 5 . | . 4 .
+7 . . | . . . | . 9 3
+3 . . | 9 . . | . 5 .
+------+-------+------
+. 5 . | . . 9 | . 7 6
+. 4 . | 7 . 3 | . . 1
+. . 1 | 8 . . | . . .
+------+-------+------
+. . 7 | 4 . . | . . .
+6 3 . | . . . | . . .
+. 1 9 | . . . | . 6 .
+[INFO     0.0 s] début : coût initial=41 conflits, max=100000 itérations
+[INFO   259.4 s] échec : 100000 itérations atteintes, meilleur=2 conflits, 8200 redémarrage(s)
+[INFO   259.4 s] résultat : échec (2 conflits restants), temps=259.40 s, itérations=100000, redémarrages=8200
+[INFO   259.4 s] grille obtenue :
+1 9 8 | 3 5 7 | 6 4 2
+7 2 5 | 6 8 4 | 1 9 3
+3 6 4 | 9 1 2 | 7 5 8
+------+-------+------
+8 5 3 | 1 4 9 | 2 7 6
+9 4 6 | 7 2 3 | 5 8 1
+2 7 1 | 8 6 5 | 9 3 4
+------+-------+------
+5 8 7 | 4 3 6 | 1 2 9
+6 3 2 | 5 9 1 | 8 4 7
+4 1 9 | 2 7 8 | 3 6 5

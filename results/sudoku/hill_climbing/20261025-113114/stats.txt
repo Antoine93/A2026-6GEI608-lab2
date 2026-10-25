@@ -1,0 +1,17 @@
+algorithme : hill_climbing
+lancement : 20261025-113114
+exécutions par puzzle : 10
+
+puzzle	résolues	temps moyen (s)	itérations moyennes
+Sudoku-01-simple	5/10	236.850	71727.3
+Sudoku-02-simple	10/10	16.267	6429.6
+Sudoku-03-easy	2/10	230.868	84951.7
+Sudoku-04-easy	0/10	282.111	100000.0
+Sudoku-05-intermediate	6/10	206.336	73379.4
+Sudoku-06-intermediate	4/10	192.275	71923.6
+Sudoku-07-expert	10/10	27.412	10835.3
+Sudoku-08-expert	0/10	277.192	100000.0
+Sudoku-09-easy	4/10	205.972	77788.5
+Sudoku-10-easy	6/10	155.861	59334.0
+
+total : 47/100 résolues (47 %)
