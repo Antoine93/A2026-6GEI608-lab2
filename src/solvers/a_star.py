@@ -31,8 +31,9 @@ def print_board(board):
         print("+---+---+---+")
 
 
-# heuristique de Manhattan pour l'algorithme A*
-def heuristic(board : list[int | None]) -> int:
+# heuristique de Manhattan pour l'algorithme A* : somme, pour chaque tuile (case vide exclue),
+# des distances en lignes et en colonnes entre sa position et sa position cible ; admissible
+def manhattan(board : list[int | None]) -> int:
     distance = 0
     for i in range(9):
         if board[i] != 0:
@@ -40,6 +41,19 @@ def heuristic(board : list[int | None]) -> int:
             x2, y2 = divmod(board[i] - 1, 3)
             distance += abs(x1 - x2) + abs(y1 - y2)
     return distance
+
+# ancien nom de l'heuristique de Manhattan (celui de l'implémentation de référence)
+heuristic = manhattan
+
+# heuristique des tuiles mal placées : nombre de tuiles (case vide exclue) qui ne sont pas à leur position cible ;
+# admissible (chaque tuile mal placée demande au moins un déplacement), mais dominée par Manhattan
+def misplaced_tiles(board : list[int | None]) -> int:
+    return sum(1 for i in range(9) if board[i] != 0 and board[i] != goal_state[i])
+
+# maximum des deux heuristiques : admissible (le max de deux heuristiques admissibles l'est aussi) ;
+# comme Manhattan domine les tuiles mal placées, il devrait être égal à Manhattan
+def max_heuristic(board : list[int | None]) -> int:
+    return max(manhattan(board), misplaced_tiles(board))
 
 # Génération de nouveaux états
 def move_tile(board, move, blank_pos):
@@ -56,19 +70,19 @@ def to_flat(board):
 def to_matrix(board):
     return [[None if v == 0 else v for v in board[i:i + 3]] for i in range(0, 9, 3)]
 
-# Implémentation de l'algorithme A*
-def solve_puzzle_a_star(start,x,y):
+# Implémentation de l'algorithme A* ; h : heuristique utilisée (Manhattan par défaut)
+def solve_puzzle_a_star(start, x, y, h=manhattan):
     start_state = to_flat(start)
     open_list = []
     closed_list = set()
-    heapq.heappush(open_list, PuzzleState(start_state, None, None, 0, heuristic(start_state)))
+    heapq.heappush(open_list, PuzzleState(start_state, None, None, 0, h(start_state)))
 
     iterations = 0
-    frontier_sizes = []
+    frontier_sizes = []           # par itération : (taille de la frontière, taille de la liste des états explorés)
 
     while open_list:
-        # Ajouter la taille de la frontière à chaque itération
-        frontier_sizes.append(len(open_list))
+        # à chaque itération : taille de la frontière (open_list) et de la liste des états explorés (closed_list)
+        frontier_sizes.append((len(open_list), len(closed_list)))
 
         current_state = heapq.heappop(open_list)
 
@@ -102,7 +116,7 @@ def solve_puzzle_a_star(start,x,y):
             if tuple(new_board) in closed_list:
                 continue
 
-            new_state = PuzzleState(new_board, current_state, move, current_state.depth + 1, current_state.depth + 1 + heuristic(new_board))
+            new_state = PuzzleState(new_board, current_state, move, current_state.depth + 1, current_state.depth + 1 + h(new_board))
             heapq.heappush(open_list, new_state)
 
     return None, iterations, frontier_sizes

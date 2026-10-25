@@ -1,0 +1,9 @@
+6GEI608 - Intelligence artificielle et reconnaissance des formes (UQAC)
+Laboratoire 2
+
+Membres de l'équipe :
+- Il'aina Ratefinanahary ()
+- Antoine Larouche Tremblay (LARA27019304)
+
+Dépôt GitHub :
+https://github.com/Antoine93/A2026-6GEI608-lab2

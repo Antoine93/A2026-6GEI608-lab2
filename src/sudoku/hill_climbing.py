@@ -5,10 +5,16 @@ import time
 
 from .commun import ROWS, get_fixed, fill_rows, conflicts
 
-# affichage : logging.INFO = début, progression et fin ; logging.DEBUG = détail de chaque itération et redémarrage
-# logging.WARNING = rien (pour les mesures de temps)
+# arrêt (échec) si aucune solution après MAX_ITERATIONS itérations, redémarrages compris
+# (≈ 350 itérations par seconde : 100 000 ≈ 5 minutes)
+MAX_ITERATIONS = 100000
+
+# nombre d'exécutions par puzzle quand le fichier est lancé directement (uv run -m src.sudoku.hill_climbing <puzzle>)
+N_RUNS = 1
+
+# affichage : logging.INFO = présentation des résultats (paramètres, résultat final, grilles) ;
+# logging.DEBUG = en plus, détail de chaque itération et de chaque redémarrage ; logging.WARNING = rien (pour les mesures de temps)
 LOG_LEVEL = logging.INFO
-LOG_EVERY = 1000          # en INFO, une ligne de progression toutes les LOG_EVERY itérations
 
 # chaque message affiche le temps écoulé depuis le début de l'exécution (remis à zéro par hill_climbing)
 run_start = time.perf_counter()
@@ -51,7 +57,8 @@ def get_neighbors(board, fixed):
 def value(board):
     return -conflicts(board)
 
-# redémarre d'une nouvelle grille quand il est bloqué et s'arrete quand le sudoku est résolu
+# redémarre d'une nouvelle grille quand il est bloqué ; s'arrête quand le sudoku est résolu
+# ou après MAX_ITERATIONS itérations (échec : on retourne la meilleure grille vue)
 def hill_climbing(puzzle):
     global run_start
     run_start = time.perf_counter()
@@ -61,22 +68,22 @@ def hill_climbing(puzzle):
     iterations = 0
     costs = []
     restart_count = 0
-    record = conflicts(current)   # meilleur coût vu, tous redémarrages confondus (pour l'affichage)
+    record = conflicts(current)   # meilleur coût vu, tous redémarrages confondus
+    best = current                # meilleure grille vue (retournée en cas d'échec)
 
-    logger.info(f"début : coût initial={record} conflits")
+    logger.info(f"début : coût initial={record} conflits, max={MAX_ITERATIONS} itérations")
 
-    while True:
+    while iterations < MAX_ITERATIONS:
 
         #cout de l'état courant à chaque itération, avant de chercher un voisin
         cost = conflicts(current)
         costs.append(cost)
-        record = min(record, cost)
+        if cost < record:
+            record, best = cost, current
 
         iterations += 1
 
         logger.debug(f"itération {iterations} : coût={cost}, record={record}, redémarrages={restart_count}")
-        if iterations % LOG_EVERY == 0:
-            logger.info(f"itération {iterations} : coût={cost}, record={record}, redémarrages={restart_count}")
 
         if cost == 0:
             logger.info(f"solution trouvée à l'itération {iterations} après {restart_count} redémarrage(s)")
@@ -95,3 +102,14 @@ def hill_climbing(puzzle):
             current = fill_rows(puzzle)
         else:
             current = neighbor
+
+    logger.info(f"échec : {MAX_ITERATIONS} itérations atteintes, meilleur={record} conflits, "
+                f"{restart_count} redémarrage(s)")
+    return best, iterations, costs, restart_count
+
+
+# lancement direct : uv run -m src.sudoku.hill_climbing [fichier de puzzle] (sans argument : tous les puzzles)
+if __name__ == "__main__":
+    import sys
+    from .runner import run
+    run(sys.modules[__name__], hill_climbing)

@@ -9,17 +9,20 @@ import time
 from .commun import ROWS, get_fixed, fill_rows, conflicts
 
 # paramètres de l'algorithme
-POP_SIZE = 50000            # nombre d'individus par génération
+POP_SIZE = 1000             # nombre d'individus par génération
 TRUNCATION_QUANTILE = 0.95  # seuil, de 0.0 à 1.0 : seuls les individus au plus à ce quantile des scores sont parents (0.5 = médiane)
 MUTATION_RATE = 0.01        # probabilité qu'un enfant soit muté
 MUTATION_SWAP_RATE = 1.0    # fraction des cases modifiables touchées par une mutation, de 0.0 à 1.0 (1.0 = toutes en moyenne)
                             # nombre d'échanges = taux × cases modifiables ÷ 2 (un échange touche 2 cases), au moins 1
-MAX_GENERATIONS = 50000     # arrêt (échec) si aucune solution avant
+MAX_GENERATIONS = 1000      # arrêt (échec) si aucune solution avant
 
-# affichage : logging.INFO = début, progression et fin ; logging.DEBUG = détail de chaque génération
-# logging.WARNING = rien (pour les mesures de temps)
-LOG_LEVEL = logging.DEBUG
-LOG_EVERY = 100             # en INFO, une ligne de progression toutes les LOG_EVERY générations
+# nombre d'exécutions par puzzle quand le fichier est lancé directement (uv run -m src.sudoku.genetic_truncation <puzzle>)
+N_RUNS = 1
+
+# affichage : logging.INFO = présentation des résultats (paramètres, redémarrages, résultat final, grilles) ;
+# logging.DEBUG = en plus, détail de chaque itération ; logging.WARNING = rien (pour les mesures de temps)
+LOG_LEVEL = logging.INFO
+LOG_EVERY = 100             # en DEBUG, une ligne de résumé toutes les LOG_EVERY générations
 
 # mesures de diversité affichées dans les logs
 DIVERSITY_SAMPLES = 200     # paires d'individus tirées pour estimer la distance moyenne entre grilles
@@ -154,7 +157,7 @@ def genetic_algorithm(puzzle):
                          f"pire={max(scores)}, seuil={threshold}, parents admissibles={len(parents)}, mutations={mutations}, "
                          f"distance moyenne={mean_distance(population, DIVERSITY_SAMPLES):.1f}/{modifiable}")
         if generation % LOG_EVERY == 0:
-            logger.info(f"génération {generation} : meilleur={best_score} conflits, seuil={threshold}, "
+            logger.debug(f"génération {generation} : meilleur={best_score} conflits, seuil={threshold}, "
                         f"parents admissibles={len(parents)}, record={record}, "
                         f"distance moyenne={mean_distance(population, DIVERSITY_SAMPLES):.1f}/{modifiable}, "
                         f"cases figées={frozen_ratio(population, cells, FROZEN_THRESHOLD):.0f} %")
@@ -165,3 +168,10 @@ def genetic_algorithm(puzzle):
 
     logger.info(f"échec : {MAX_GENERATIONS} générations atteintes, meilleur={record} conflits")
     return overall_best, MAX_GENERATIONS, costs, restart_count
+
+
+# lancement direct : uv run -m src.sudoku.genetic_truncation [fichier de puzzle] (sans argument : tous les puzzles)
+if __name__ == "__main__":
+    import sys
+    from .runner import run
+    run(sys.modules[__name__], genetic_algorithm)
