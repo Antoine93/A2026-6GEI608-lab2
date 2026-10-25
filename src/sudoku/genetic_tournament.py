@@ -15,10 +15,13 @@ MUTATION_RATE = 0.3     # probabilité qu'un enfant soit muté
 MUTATION_SWAPS = 10     # nombre d'échanges par mutation
 MAX_GENERATIONS = 5000  # arrêt (échec) si aucune solution avant
 
-# affichage : logging.INFO = début, progression et fin ; logging.DEBUG = détail de chaque génération
-# logging.WARNING = rien (pour les mesures de temps)
+# nombre d'exécutions par puzzle quand le fichier est lancé directement (uv run -m src.sudoku.genetic_tournament <puzzle>)
+N_RUNS = 1
+
+# affichage : logging.INFO = présentation des résultats (paramètres, redémarrages, résultat final, grilles) ;
+# logging.DEBUG = en plus, détail de chaque itération ; logging.WARNING = rien (pour les mesures de temps)
 LOG_LEVEL = logging.DEBUG
-LOG_EVERY = 100         # en INFO, une ligne de progression toutes les LOG_EVERY générations
+LOG_EVERY = 100         # en DEBUG, une ligne de résumé toutes les LOG_EVERY générations
 
 # chaque message affiche le temps écoulé depuis le début de l'exécution (remis à zéro par genetic_algorithm)
 run_start = time.perf_counter()
@@ -120,7 +123,7 @@ def genetic_algorithm(puzzle):
         logger.debug(f"génération {generation} : meilleur={best_score}, moyenne={sum(scores) / POP_SIZE:.1f}, "
                      f"pire={max(scores)}, mutations={mutations}")
         if generation % LOG_EVERY == 0:
-            logger.info(f"génération {generation} : meilleur={best_score} conflits, record={record}")
+            logger.debug(f"génération {generation} : meilleur={best_score} conflits, record={record}")
 
         if best_score == 0:
             logger.info(f"solution trouvée à la génération {generation}")
@@ -128,3 +131,10 @@ def genetic_algorithm(puzzle):
 
     logger.info(f"échec : {MAX_GENERATIONS} générations atteintes, meilleur={record} conflits")
     return overall_best, MAX_GENERATIONS, costs, restart_count
+
+
+# lancement direct : uv run -m src.sudoku.genetic_tournament [fichier de puzzle] (sans argument : tous les puzzles)
+if __name__ == "__main__":
+    import sys
+    from .runner import run
+    run(sys.modules[__name__], genetic_algorithm)

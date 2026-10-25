@@ -25,10 +25,13 @@ HILL_CLIMBING_STEPS = 5     # pas de hill climbing au plus par enfant (arrêt pl
 # qui faussaient la distance moyenne)
 RESTART_STAGNATION = 30     # générations sans nouveau record de l'essai avant de redémarrer (0 = désactivé)
 
-# affichage : logging.INFO = début, progression et fin ; logging.DEBUG = détail de chaque génération
-# logging.WARNING = rien (pour les mesures de temps)
-LOG_LEVEL = logging.DEBUG
-LOG_EVERY = 100             # en INFO, une ligne de progression toutes les LOG_EVERY générations
+# nombre d'exécutions par puzzle quand le fichier est lancé directement (uv run -m src.sudoku.genetic_hc <puzzle>)
+N_RUNS = 1
+
+# affichage : logging.INFO = présentation des résultats (paramètres, redémarrages, résultat final, grilles) ;
+# logging.DEBUG = en plus, détail de chaque itération ; logging.WARNING = rien (pour les mesures de temps)
+LOG_LEVEL = logging.INFO
+LOG_EVERY = 100             # en DEBUG, une ligne de résumé toutes les LOG_EVERY générations
 
 # mesures de diversité affichées dans les logs
 DIVERSITY_SAMPLES = 200     # paires d'individus tirées pour estimer la distance moyenne entre grilles
@@ -215,7 +218,7 @@ def genetic_algorithm(puzzle):
                          f"distance moyenne={distance:.1f}/{modifiable}, stagnation={stagnation}, "
                          f"redémarrages={restart_count}")
         if generation % LOG_EVERY == 0:
-            logger.info(f"génération {generation} : meilleur={best_score} conflits, seuil={threshold}, "
+            logger.debug(f"génération {generation} : meilleur={best_score} conflits, seuil={threshold}, "
                         f"parents admissibles={len(parents)}, record={record}, redémarrages={restart_count}, "
                         f"distance moyenne={distance:.1f}/{modifiable}, "
                         f"cases figées={frozen_ratio(population, cells, FROZEN_THRESHOLD):.0f} %")
@@ -237,3 +240,10 @@ def genetic_algorithm(puzzle):
     logger.info(f"échec : {MAX_GENERATIONS} générations atteintes, meilleur={record} conflits, "
                 f"{restart_count} redémarrage(s)")
     return overall_best, MAX_GENERATIONS, costs, restart_count
+
+
+# lancement direct : uv run -m src.sudoku.genetic_hc [fichier de puzzle] (sans argument : tous les puzzles)
+if __name__ == "__main__":
+    import sys
+    from .runner import run
+    run(sys.modules[__name__], genetic_algorithm)

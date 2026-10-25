@@ -5,10 +5,12 @@ import time
 
 from .commun import ROWS, get_fixed, fill_rows, conflicts
 
-# affichage : logging.INFO = début, progression et fin ; logging.DEBUG = détail de chaque itération et redémarrage
-# logging.WARNING = rien (pour les mesures de temps)
+# nombre d'exécutions par puzzle quand le fichier est lancé directement (uv run -m src.sudoku.hill_climbing <puzzle>)
+N_RUNS = 1
+
+# affichage : logging.INFO = présentation des résultats (paramètres, résultat final, grilles) ;
+# logging.DEBUG = en plus, détail de chaque itération et de chaque redémarrage ; logging.WARNING = rien (pour les mesures de temps)
 LOG_LEVEL = logging.INFO
-LOG_EVERY = 1000          # en INFO, une ligne de progression toutes les LOG_EVERY itérations
 
 # chaque message affiche le temps écoulé depuis le début de l'exécution (remis à zéro par hill_climbing)
 run_start = time.perf_counter()
@@ -75,8 +77,6 @@ def hill_climbing(puzzle):
         iterations += 1
 
         logger.debug(f"itération {iterations} : coût={cost}, record={record}, redémarrages={restart_count}")
-        if iterations % LOG_EVERY == 0:
-            logger.info(f"itération {iterations} : coût={cost}, record={record}, redémarrages={restart_count}")
 
         if cost == 0:
             logger.info(f"solution trouvée à l'itération {iterations} après {restart_count} redémarrage(s)")
@@ -95,3 +95,10 @@ def hill_climbing(puzzle):
             current = fill_rows(puzzle)
         else:
             current = neighbor
+
+
+# lancement direct : uv run -m src.sudoku.hill_climbing [fichier de puzzle] (sans argument : tous les puzzles)
+if __name__ == "__main__":
+    import sys
+    from .runner import run
+    run(sys.modules[__name__], hill_climbing)
