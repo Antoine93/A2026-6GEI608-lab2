@@ -105,13 +105,13 @@ A* <mark>(Manhattan)</mark> explore <mark>de 65 à 290 fois</mark> moins d'état
 
 ### <mark>Comparaison des heuristiques</mark>
 
-<mark>Les trois heuristiques sont admissibles et trouvent la distance optimale, mais Manhattan explore de 4 à 110 fois moins d'états que les tuiles mal placées, et l'écart grandit avec la longueur de la solution (× 110 sur Ex1-4). C'est l'effet de la dominance vu en cours : une heuristique dominante explore moins d'états, avec une frontière plus petite et moins d'itérations (« jusqu'à 90 % » selon la séance 4). Le maximum des deux est identique à Manhattan, comme prévu.</mark>
+<mark>Les trois heuristiques sont admissibles et trouvent la distance optimale, mais Manhattan explore de 4 à 110 fois moins d'états que les tuiles mal placées, et l'écart grandit avec la longueur de la solution (× 110 sur Ex1-4). C'est l'effet de la dominance vu en cours : une heuristique dominante explore moins d'états, avec une frontière plus petite et moins d'itérations (jusqu'à 90 % selon le cours). Le maximum des deux est identique à Manhattan, comme prévu.</mark>
 
 ### Temps d'exécution
 
 A* <mark>(Manhattan)</mark> est de l'ordre de la milliseconde (<mark>0,0017 à 0,0039 s</mark>), contre <mark>0,1 à 1,7 s</mark> pour BFS et jusqu'à <mark>10 s</mark> pour IDS. Le temps suit le nombre d'itérations, mais chaque itération de A* coûte un peu plus cher (calcul de l'heuristique et file de priorité). DFS peut être rapide (<mark>0,018 s</mark> sur Ex1-1) mais son résultat n'est pas utilisable.
 
-<mark>Comme vu en séance 4, on ne peut pas se fier entièrement au temps mesuré : il dépend de la machine et de sa charge. Nos premières mesures, prises sur une autre machine, étaient environ deux fois plus faibles. Les itérations et la taille des listes sont les mesures principales ; le temps est indicatif et n'est comparé qu'entre mesures prises sur la même machine.</mark>
+<mark>Comme vu en cours, on ne peut pas se fier entièrement au temps mesuré : il dépend de la machine et de sa charge. Nos premières mesures, prises sur une autre machine, étaient environ deux fois plus faibles. Les itérations et la taille des listes sont les mesures principales ; le temps est indicatif et n'est comparé qu'entre mesures prises sur la même machine.</mark>
 
 ### Frontière
 
@@ -193,7 +193,7 @@ Hill climbing à **montée la plus raide** (*steepest ascent*), adapté d'aima-p
 1. **État initial :** une grille `fill_rows` (lignes valides, chiffres permis par les cases données).
 2. **À chaque itération :** on enregistre les conflits de l'état courant, puis on génère **tous** ses voisins avec `get_neighbors` : pour chaque ligne, tous les échanges de deux cases modifiables (de 140 à 160 voisins selon le puzzle). Chaque voisin est évalué par `value = -conflicts` (maximiser `value` revient à minimiser les conflits).
 3. **Déplacement :** on choisit le meilleur voisin (`argmax_random_tie`, égalités départagées au hasard). S'il est **strictement** meilleur que l'état courant, il devient l'état courant.
-4. **Optimum local :** si aucun voisin n'est strictement meilleur (optimum local ou plateau), on **redémarre** d'une nouvelle grille `fill_rows` et on compte un redémarrage. C'est la solution proposée en cours contre les optimums locaux : réexécuter avec plusieurs initialisations aléatoires (séance 4).
+4. **Optimum local :** si aucun voisin n'est strictement meilleur (optimum local ou plateau), on **redémarre** d'une nouvelle grille `fill_rows` et on compte un redémarrage. C'est la solution proposée en cours contre les optimums locaux : réexécuter avec plusieurs initialisations aléatoires.
 5. **Arrêt :** à la solution (0 conflit), ou après `MAX_ITERATIONS = 100 000` itérations, redémarrages compris (≈ 350 itérations par seconde, soit ≈ 5 min au plus). En cas d'échec, on retourne la **meilleure grille vue** sur toute l'exécution, et non la grille courante (qui peut être une grille aléatoire juste après un redémarrage).
 
 **Sorties.** Le nombre d'itérations compte tous les pas, redémarrages compris ; le fichier de résultats donne les conflits de l'état courant à chaque itération (la courbe remonte à chaque redémarrage) et le nombre de redémarrages.
@@ -213,7 +213,7 @@ Les trois versions partagent la représentation, la fitness (`conflicts`, à min
 
 - **Population initiale :** `POP_SIZE` grilles `fill_rows`.
 - **Fitness :** nombre de paires en conflit, à minimiser. Les deux sélections ne font que comparer les scores : aucune transformation en valeur positive n'est nécessaire.
-- **Crossover uniforme par lignes :** chaque ligne de l'enfant vient, au hasard, de l'un ou l'autre parent. Les lignes étant copiées entières, elles restent valides et les cases données sont conservées (le professeur recommandait de trancher par lignes ou par colonnes). Le crossover uniforme est une variante de la coupe par lignes : avec une coupe à un point, les lignes voisines d'un même côté de la coupe ne sont jamais séparées (8 enfants possibles au lieu de 2⁹ = 512).
+- **Crossover uniforme par lignes :** chaque ligne de l'enfant vient, au hasard, de l'un ou l'autre parent. Les lignes étant copiées entières, elles restent valides et les cases données sont conservées (couper par lignes ou par colonnes garantit de ne jamais modifier le puzzle de départ). Le crossover uniforme est une variante de la coupe par lignes : avec une coupe à un point, les lignes voisines d'un même côté de la coupe ne sont jamais séparées (8 enfants possibles au lieu de 2⁹ = 512).
 - **Mutation :** avec la probabilité `MUTATION_RATE`, un ou plusieurs échanges de deux cases modifiables d'une même ligne (comme le voisin du hill climbing).
 - **Remplacement :** toute la population est remplacée à chaque génération.
 
@@ -291,7 +291,7 @@ Pendant le développement, nous avons essayé : élitisme (les élites attirent 
 
 ### Pistes
 
-- **Recuit simulé** (séance 4) : accepter parfois un voisin pire permettrait de défaire une chaîne d'inversions comme celle du Sudoku-03.
+- **Recuit simulé** (vu en cours) : accepter parfois un voisin pire permettrait de défaire une chaîne d'inversions comme celle du Sudoku-03.
 - **Voisinage étendu** : des paires d'échanges dans deux lignes différentes (beaucoup plus coûteux).
 - **Exécutions en parallèle** dans le runner, pour réduire la durée des évaluations.
 
