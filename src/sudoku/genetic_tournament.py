@@ -7,7 +7,7 @@ import time
 from .commun import ROWS, get_fixed, fill_rows, conflicts
 
 # paramètres de l'algorithme
-POP_SIZE = 20000        # nombre d'individus par génération
+POP_SIZE = 1000         # nombre d'individus par génération
 TOURNAMENT_K = 2        # nombre de candidats par tournoi
 TOURNAMENT_P = 0.8      # probabilité que le meilleur candidat gagne (1.0 = tournoi classique)
 MUTATION_RATE = 0.3     # probabilité qu'un enfant soit muté

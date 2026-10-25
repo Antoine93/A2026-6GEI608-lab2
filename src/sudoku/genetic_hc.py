@@ -9,12 +9,12 @@ import time
 from .commun import ROWS, get_fixed, fill_rows, conflicts
 
 # paramètres de l'algorithme
-POP_SIZE = 500              # nombre d'individus par génération (petit : chaque enfant coûte plus cher)
-TRUNCATION_QUANTILE = 0.5  # seuil, de 0.0 à 1.0 : seuls les individus au plus à ce quantile des scores sont parents (0.5 = médiane)
+POP_SIZE = 1000             # nombre d'individus par génération (petit : chaque enfant coûte plus cher)
+TRUNCATION_QUANTILE = 0.5   # seuil, de 0.0 à 1.0 : seuls les individus au plus à ce quantile des scores sont parents (0.5 = médiane)
 MUTATION_RATE = 0.1         # probabilité qu'un enfant soit muté
 MUTATION_SWAP_RATE = 0.2    # fraction des cases modifiables touchées par une mutation, de 0.0 à 1.0 (1.0 = toutes en moyenne)
                             # nombre d'échanges = taux × cases modifiables ÷ 2 (un échange touche 2 cases), au moins 1
-MAX_GENERATIONS = 50000     # arrêt (échec) si aucune solution avant
+MAX_GENERATIONS = 5000      # arrêt (échec) si aucune solution avant
 
 # hill climbing (partie mémétique ; même voisinage que hill_climbing.py)
 HILL_CLIMBING_RATE = 0.1    # fraction des enfants qui reçoivent le hill climbing (0 = génétique pur)
