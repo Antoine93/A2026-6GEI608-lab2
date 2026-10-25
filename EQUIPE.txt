@@ -2,7 +2,7 @@
 Laboratoire 2
 
 Membres de l'équipe :
-- Il'aina Ratefinanahary ()
+- Il'aina Ratefinanahary (RATI24030207)
 - Antoine Larouche Tremblay (LARA27019304)
 
 Dépôt GitHub :
