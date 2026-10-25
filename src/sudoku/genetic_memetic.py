@@ -9,16 +9,16 @@ import time
 from .commun import ROWS, get_fixed, fill_rows, conflicts
 
 # paramètres de l'algorithme
-POP_SIZE = 500            # nombre d'individus par génération (petit : chaque enfant coûte plus cher)
-TRUNCATION_QUANTILE = 0.95 # seuil, de 0.0 à 1.0 : seuls les individus au plus à ce quantile des scores sont parents (0.5 = médiane)
-MUTATION_RATE = 0.1       # probabilité qu'un enfant soit muté
-MUTATION_SWAP_RATE = 0.1 # fraction des cases modifiables touchées par une mutation, de 0.0 à 1.0 (1.0 = toutes en moyenne)
-                          # nombre d'échanges = taux × cases modifiables ÷ 2 (un échange touche 2 cases), au moins 1
-MAX_GENERATIONS = 50000    # arrêt (échec) si aucune solution avant
+POP_SIZE = 500              # nombre d'individus par génération (petit : chaque enfant coûte plus cher)
+TRUNCATION_QUANTILE = 0.95  # seuil, de 0.0 à 1.0 : seuls les individus au plus à ce quantile des scores sont parents (0.5 = médiane)
+MUTATION_RATE = 0.1         # probabilité qu'un enfant soit muté
+MUTATION_SWAP_RATE = 0.1    # fraction des cases modifiables touchées par une mutation, de 0.0 à 1.0 (1.0 = toutes en moyenne)
+                            # nombre d'échanges = taux × cases modifiables ÷ 2 (un échange touche 2 cases), au moins 1
+MAX_GENERATIONS = 50000     # arrêt (échec) si aucune solution avant
 
 # recherche locale (partie mémétique)
-LOCAL_SEARCH_RATE = 0.1   # fraction des enfants qui reçoivent la recherche locale (0 = génétique pur)
-LOCAL_SEARCH_STEPS = 5    # pas de hill climbing au plus par enfant (arrêt plus tôt si aucun voisin n'est meilleur)
+LOCAL_SEARCH_RATE = 0.1     # fraction des enfants qui reçoivent la recherche locale (0 = génétique pur)
+LOCAL_SEARCH_STEPS = 5      # pas de hill climbing au plus par enfant (arrêt plus tôt si aucun voisin n'est meilleur)
 
 # redémarrage : quand la population a convergé (distance moyenne < RESTART_DISTANCE), on recrée toute la population
 RESTART_DISTANCE = 1.0    # distance moyenne (en cases) sous laquelle la population est jugée figée (0 = désactivé)
@@ -26,11 +26,11 @@ RESTART_DISTANCE = 1.0    # distance moyenne (en cases) sous laquelle la populat
 # affichage : logging.INFO = début, progression et fin ; logging.DEBUG = détail de chaque génération
 # logging.WARNING = rien (pour les mesures de temps)
 LOG_LEVEL = logging.DEBUG
-LOG_EVERY = 100           # en INFO, une ligne de progression toutes les LOG_EVERY générations
+LOG_EVERY = 100             # en INFO, une ligne de progression toutes les LOG_EVERY générations
 
 # mesures de diversité affichées dans les logs
-DIVERSITY_SAMPLES = 200   # paires d'individus tirées pour estimer la distance moyenne entre grilles
-FROZEN_THRESHOLD = 0.95   # une case est « figée » si au moins cette fraction de la population y a le même chiffre
+DIVERSITY_SAMPLES = 200     # paires d'individus tirées pour estimer la distance moyenne entre grilles
+FROZEN_THRESHOLD = 0.95     # une case est « figée » si au moins cette fraction de la population y a le même chiffre
 
 # chaque message affiche le temps écoulé depuis le début de l'exécution (remis à zéro par genetic_algorithm)
 run_start = time.perf_counter()

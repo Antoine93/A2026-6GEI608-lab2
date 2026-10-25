@@ -10,20 +10,20 @@ from .commun import ROWS, get_fixed, fill_rows, conflicts
 
 # paramètres de l'algorithme
 POP_SIZE = 50000            # nombre d'individus par génération
-TRUNCATION_QUANTILE = 0.95 # seuil, de 0.0 à 1.0 : seuls les individus au plus à ce quantile des scores sont parents (0.5 = médiane)
-MUTATION_RATE = 0.01       # probabilité qu'un enfant soit muté
-MUTATION_SWAP_RATE = 1.0 # fraction des cases modifiables touchées par une mutation, de 0.0 à 1.0 (1.0 = toutes en moyenne)
-                          # nombre d'échanges = taux × cases modifiables ÷ 2 (un échange touche 2 cases), au moins 1
-MAX_GENERATIONS = 50000    # arrêt (échec) si aucune solution avant
+TRUNCATION_QUANTILE = 0.95  # seuil, de 0.0 à 1.0 : seuls les individus au plus à ce quantile des scores sont parents (0.5 = médiane)
+MUTATION_RATE = 0.01        # probabilité qu'un enfant soit muté
+MUTATION_SWAP_RATE = 1.0    # fraction des cases modifiables touchées par une mutation, de 0.0 à 1.0 (1.0 = toutes en moyenne)
+                            # nombre d'échanges = taux × cases modifiables ÷ 2 (un échange touche 2 cases), au moins 1
+MAX_GENERATIONS = 50000     # arrêt (échec) si aucune solution avant
 
 # affichage : logging.INFO = début, progression et fin ; logging.DEBUG = détail de chaque génération
 # logging.WARNING = rien (pour les mesures de temps)
 LOG_LEVEL = logging.DEBUG
-LOG_EVERY = 100           # en INFO, une ligne de progression toutes les LOG_EVERY générations
+LOG_EVERY = 100             # en INFO, une ligne de progression toutes les LOG_EVERY générations
 
 # mesures de diversité affichées dans les logs
-DIVERSITY_SAMPLES = 200   # paires d'individus tirées pour estimer la distance moyenne entre grilles
-FROZEN_THRESHOLD = 0.95   # une case est « figée » si au moins cette fraction de la population y a le même chiffre
+DIVERSITY_SAMPLES = 200     # paires d'individus tirées pour estimer la distance moyenne entre grilles
+FROZEN_THRESHOLD = 0.95     # une case est « figée » si au moins cette fraction de la population y a le même chiffre
 
 # chaque message affiche le temps écoulé depuis le début de l'exécution (remis à zéro par genetic_algorithm)
 run_start = time.perf_counter()

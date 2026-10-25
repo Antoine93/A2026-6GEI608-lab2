@@ -8,17 +8,17 @@ import time
 from .commun import ROWS, get_fixed, fill_rows, conflicts
 
 # paramètres de l'algorithme
-POP_SIZE = 20000            # nombre d'individus par génération
-TOURNAMENT_K = 2          # nombre de candidats par tournoi
-TOURNAMENT_P = 0.8        # probabilité que le meilleur candidat gagne (1.0 = tournoi classique)
-MUTATION_RATE = 0.3       # probabilité qu'un enfant soit muté
-MUTATION_SWAPS = 10        # nombre d'échanges par mutation
-MAX_GENERATIONS = 5000    # arrêt (échec) si aucune solution avant
+POP_SIZE = 20000        # nombre d'individus par génération
+TOURNAMENT_K = 2        # nombre de candidats par tournoi
+TOURNAMENT_P = 0.8      # probabilité que le meilleur candidat gagne (1.0 = tournoi classique)
+MUTATION_RATE = 0.3     # probabilité qu'un enfant soit muté
+MUTATION_SWAPS = 10     # nombre d'échanges par mutation
+MAX_GENERATIONS = 5000  # arrêt (échec) si aucune solution avant
 
 # affichage : logging.INFO = début, progression et fin ; logging.DEBUG = détail de chaque génération
 # logging.WARNING = rien (pour les mesures de temps)
 LOG_LEVEL = logging.DEBUG
-LOG_EVERY = 100           # en INFO, une ligne de progression toutes les LOG_EVERY générations
+LOG_EVERY = 100         # en INFO, une ligne de progression toutes les LOG_EVERY générations
 
 # chaque message affiche le temps écoulé depuis le début de l'exécution (remis à zéro par genetic_algorithm)
 run_start = time.perf_counter()
