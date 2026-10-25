@@ -20,8 +20,10 @@ MAX_GENERATIONS = 50000     # arrêt (échec) si aucune solution avant
 LOCAL_SEARCH_RATE = 0.1     # fraction des enfants qui reçoivent la recherche locale (0 = génétique pur)
 LOCAL_SEARCH_STEPS = 5      # pas de hill climbing au plus par enfant (arrêt plus tôt si aucun voisin n'est meilleur)
 
-# redémarrage : quand la population a convergé (distance moyenne < RESTART_DISTANCE), on recrée toute la population
-RESTART_DISTANCE = 1.0    # distance moyenne (en cases) sous laquelle la population est jugée figée (0 = désactivé)
+# redémarrage : si le meilleur score de l'essai en cours n'a pas été battu depuis RESTART_STAGNATION générations,
+# l'essai est jugé bloqué et on recrée toute la population (critère insensible aux quelques grilles très mutées,
+# qui faussaient la distance moyenne)
+RESTART_STAGNATION = 30     # générations sans nouveau record de l'essai avant de redémarrer (0 = désactivé)
 
 # affichage : logging.INFO = début, progression et fin ; logging.DEBUG = détail de chaque génération
 # logging.WARNING = rien (pour les mesures de temps)
@@ -153,12 +155,14 @@ def genetic_algorithm(puzzle):
 
     costs = []
     record = min(scores)          # meilleur score vu depuis le début
-    restart_count = 0             # nombre de redémarrages de la population (population figée)
+    restart_count = 0             # nombre de redémarrages de la population (essai bloqué)
+    attempt_record = record       # meilleur score de l'essai en cours (remis à zéro à chaque redémarrage)
+    stagnation = 0                # générations sans battre attempt_record
     overall_best = population[scores.index(record)]   # meilleure grille vue (le meilleur peut disparaître d'une génération à l'autre)
 
     logger.info(f"début : population={POP_SIZE}, troncature au quantile {TRUNCATION_QUANTILE}, crossover uniforme, "
                 f"recherche locale sur {LOCAL_SEARCH_RATE} des enfants ({LOCAL_SEARCH_STEPS} pas max), "
-                f"redémarrage si distance < {RESTART_DISTANCE}, "
+                f"redémarrage après {RESTART_STAGNATION} générations sans progrès, "
                 f"mutation={MUTATION_RATE} ({swaps} échange(s) = {MUTATION_SWAP_RATE} × {modifiable} cases ÷ 2), "
                 f"max={MAX_GENERATIONS}, meilleur initial={record} conflits")
 
@@ -196,14 +200,20 @@ def genetic_algorithm(puzzle):
         if best_score < record:
             record = best_score
             overall_best = best
-        distance = mean_distance(population, DIVERSITY_SAMPLES)   # calculée à chaque génération (≈ 1 ms)
+        if best_score < attempt_record:
+            attempt_record = best_score
+            stagnation = 0
+        else:
+            stagnation += 1
+        distance = mean_distance(population, DIVERSITY_SAMPLES)   # pour les logs (≈ 1 ms)
 
         if logger.isEnabledFor(logging.DEBUG):
             logger.debug(f"génération {generation} : meilleur={best_score}, moyenne={sum(scores) / POP_SIZE:.1f}, "
                          f"pire={max(scores)}, seuil={threshold}, parents admissibles={len(parents)}, mutations={mutations}, "
                          f"recherche locale={searched} enfants ({improved} améliorés, gain moyen "
                          f"{gain / improved if improved else 0:.1f} conflits), "
-                         f"distance moyenne={distance:.1f}/{modifiable}")
+                         f"distance moyenne={distance:.1f}/{modifiable}, stagnation={stagnation}, "
+                         f"redémarrages={restart_count}")
         if generation % LOG_EVERY == 0:
             logger.info(f"génération {generation} : meilleur={best_score} conflits, seuil={threshold}, "
                         f"parents admissibles={len(parents)}, record={record}, redémarrages={restart_count}, "
@@ -214,13 +224,15 @@ def genetic_algorithm(puzzle):
             logger.info(f"solution trouvée à la génération {generation} après {restart_count} redémarrage(s)")
             return best, generation, costs, restart_count
 
-        # population figée : on la recrée entièrement (le record reste dans overall_best)
-        if distance < RESTART_DISTANCE:
+        # essai bloqué : on recrée toute la population (le record global reste dans overall_best)
+        if RESTART_STAGNATION and stagnation >= RESTART_STAGNATION:
+            restart_count += 1
+            logger.info(f"génération {generation} : essai bloqué à {attempt_record} conflits depuis {stagnation} générations "
+                        f"(distance {distance:.1f}), redémarrage n° {restart_count}")
             population = [fill_rows(puzzle) for _ in range(POP_SIZE)]
             scores = [conflicts(b) for b in population]
-            restart_count += 1
-            logger.info(f"génération {generation} : population figée (distance {distance:.1f}, meilleur {best_score}), "
-                        f"redémarrage n° {restart_count}")
+            attempt_record = min(scores)
+            stagnation = 0
 
     logger.info(f"échec : {MAX_GENERATIONS} générations atteintes, meilleur={record} conflits, "
                 f"{restart_count} redémarrage(s)")
