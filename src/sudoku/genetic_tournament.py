@@ -1,4 +1,4 @@
-# Fichier d'implémentation de l'algorithme génétique, version de base (structure inspirée de aima-python, Figure 4.8)
+# Algorithme génétique à sélection par tournoi, version de base (structure inspirée de aima-python, Figure 4.8)
 # version augmentée (élitisme + mutation adaptative) : genetic_adaptive.py
 # ancienne version AIMA non adaptée : genetic_aima.py
 import logging

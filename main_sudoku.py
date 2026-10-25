@@ -3,13 +3,13 @@ import time
 from src.sudoku.hill_climbing import hill_climbing
 from src.sudoku.commun import print_board, is_valid_config
 from src.sudoku.parser import parse_sudoku_file
-from src.sudoku.genetic import genetic_algorithm
+from src.sudoku.genetic_tournament import genetic_algorithm as genetic_tournament_algorithm
 from src.utils import write_run_file, output_path
 
 # ajout d'un dictionnaire pour mapper les algorithmes aux fonctions correspondantes
 SOLVERS = {
     "hill_climbing": hill_climbing,
-    "genetic": genetic_algorithm
+    "genetic_tournament": genetic_tournament_algorithm
 }
 
 if __name__ == '__main__':
@@ -24,7 +24,7 @@ if __name__ == '__main__':
         exit(1)
 
     # demander à l'utilisateur quel algorithme utiliser
-    algo = input("Algorithme à utiliser (hill_climbing, genetic) : ").strip().lower()
+    algo = input("Algorithme à utiliser (hill_climbing, genetic_tournament) : ").strip().lower()
     if algo not in SOLVERS:
         print(f" '{algo}' non reconnu. Veuillez choisir parmi : {', '.join(SOLVERS.keys())}.")
         exit(1)
