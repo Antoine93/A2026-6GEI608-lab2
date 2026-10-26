@@ -1,0 +1,26 @@
+algorithme : genetic_hc
+lancement : 20261025-141610
+puzzle : Sudoku-09-easy.txt
+exécutions : 10
+résolues : 10/10 (100 %)
+
+exécution	temps (s)	itérations	redémarrages	conflits restants
+1	17.129	14	0	0
+2	52.381	52	1	0
+3	17.426	14	0	0
+4	17.197	14	0	0
+5	16.805	14	0	0
+6	13.937	11	0	0
+7	55.067	57	1	0
+8	31.887	29	0	0
+9	18.121	15	0	0
+10	18.430	15	0	0
+
+toutes les exécutions :
+  temps (s)    : moyenne=25.84, écart-type=15.47, min=13.94, max=55.07
+  itérations   : moyenne=23.50, écart-type=17.08, min=11.00, max=57.00
+  redémarrages : moyenne=0.20, écart-type=0.42, min=0.00, max=1.00
+  conflits     : moyenne=0.00, écart-type=0.00, min=0.00, max=0.00
+exécutions résolues seulement :
+  temps (s)    : moyenne=25.84, écart-type=15.47, min=13.94, max=55.07
+  itérations   : moyenne=23.50, écart-type=17.08, min=11.00, max=57.00

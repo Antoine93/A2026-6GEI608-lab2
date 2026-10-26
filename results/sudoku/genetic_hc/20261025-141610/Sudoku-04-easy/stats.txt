@@ -1,0 +1,23 @@
+algorithme : genetic_hc
+lancement : 20261025-141610
+puzzle : Sudoku-04-easy.txt
+exécutions : 10
+résolues : 0/10 (0 %)
+
+exécution	temps (s)	itérations	redémarrages	conflits restants
+1	1031.564	1000	25	2
+2	1050.452	1000	24	2
+3	1038.426	1000	24	2
+4	1053.107	1000	24	2
+5	1037.208	1000	24	2
+6	1016.601	1000	24	2
+7	1073.007	1000	25	2
+8	1030.086	1000	24	2
+9	1034.678	1000	24	2
+10	1046.333	1000	25	2
+
+toutes les exécutions :
+  temps (s)    : moyenne=1041.15, écart-type=15.47, min=1016.60, max=1073.01
+  itérations   : moyenne=1000.00, écart-type=0.00, min=1000.00, max=1000.00
+  redémarrages : moyenne=24.30, écart-type=0.48, min=24.00, max=25.00
+  conflits     : moyenne=2.00, écart-type=0.00, min=2.00, max=2.00

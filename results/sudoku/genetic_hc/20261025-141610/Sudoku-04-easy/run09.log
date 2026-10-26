@@ -1,0 +1,52 @@
+[INFO     0.0 s] ===== genetic_hc sur Sudoku-04-easy.txt (lancement 20261025-141610, exécution 9/10) =====
+[INFO     0.0 s] grille de départ :
+3 . . | 1 . 6 | . . .
+. . . | . 8 . | 7 1 2
+. . 4 | . . . | . . .
+------+-------+------
+. . 9 | . . . | 2 7 .
+. . . | . . . | 4 6 .
+6 . 8 | . . . | 3 . 1
+------+-------+------
+. 2 . | 8 . . | 1 . .
+4 8 6 | . . . | . . .
+. . . | . . . | . . 4
+[INFO     0.5 s] début : population=1000, troncature au quantile 0.5, crossover uniforme, hill climbing sur 0.1 des enfants (5 pas max), redémarrage après 30 générations sans progrès, mutation=0.1 (6 échange(s) = 0.2 × 57 cases ÷ 2), max=1000, meilleur initial=18 conflits
+[INFO    39.1 s] génération 36 : essai bloqué à 2 conflits depuis 30 générations (distance 5.9), redémarrage n° 1
+[INFO    86.0 s] génération 75 : essai bloqué à 2 conflits depuis 30 générations (distance 6.6), redémarrage n° 2
+[INFO   135.1 s] génération 121 : essai bloqué à 2 conflits depuis 30 générations (distance 6.7), redémarrage n° 3
+[INFO   179.7 s] génération 160 : essai bloqué à 2 conflits depuis 30 générations (distance 10.9), redémarrage n° 4
+[INFO   222.0 s] génération 198 : essai bloqué à 2 conflits depuis 30 générations (distance 8.2), redémarrage n° 5
+[INFO   257.1 s] génération 232 : essai bloqué à 2 conflits depuis 30 générations (distance 6.1), redémarrage n° 6
+[INFO   302.8 s] génération 279 : essai bloqué à 2 conflits depuis 30 générations (distance 2.7), redémarrage n° 7
+[INFO   342.4 s] génération 319 : essai bloqué à 2 conflits depuis 30 générations (distance 4.1), redémarrage n° 8
+[INFO   384.7 s] génération 361 : essai bloqué à 2 conflits depuis 30 générations (distance 6.3), redémarrage n° 9
+[INFO   422.5 s] génération 400 : essai bloqué à 2 conflits depuis 30 générations (distance 6.3), redémarrage n° 10
+[INFO   460.2 s] génération 439 : essai bloqué à 2 conflits depuis 30 générations (distance 5.9), redémarrage n° 11
+[INFO   507.2 s] génération 482 : essai bloqué à 2 conflits depuis 30 générations (distance 7.2), redémarrage n° 12
+[INFO   546.0 s] génération 525 : essai bloqué à 2 conflits depuis 30 générations (distance 6.1), redémarrage n° 13
+[INFO   589.8 s] génération 571 : essai bloqué à 2 conflits depuis 30 générations (distance 4.2), redémarrage n° 14
+[INFO   628.4 s] génération 613 : essai bloqué à 2 conflits depuis 30 générations (distance 3.0), redémarrage n° 15
+[INFO   671.3 s] génération 655 : essai bloqué à 2 conflits depuis 30 générations (distance 6.3), redémarrage n° 16
+[INFO   716.0 s] génération 695 : essai bloqué à 2 conflits depuis 30 générations (distance 5.9), redémarrage n° 17
+[INFO   759.4 s] génération 736 : essai bloqué à 2 conflits depuis 30 générations (distance 3.7), redémarrage n° 18
+[INFO   800.8 s] génération 772 : essai bloqué à 2 conflits depuis 30 générations (distance 9.3), redémarrage n° 19
+[INFO   839.2 s] génération 809 : essai bloqué à 2 conflits depuis 30 générations (distance 6.2), redémarrage n° 20
+[INFO   876.8 s] génération 847 : essai bloqué à 2 conflits depuis 30 générations (distance 4.1), redémarrage n° 21
+[INFO   919.6 s] génération 889 : essai bloqué à 2 conflits depuis 30 générations (distance 6.9), redémarrage n° 22
+[INFO   957.1 s] génération 925 : essai bloqué à 2 conflits depuis 30 générations (distance 7.2), redémarrage n° 23
+[INFO   997.6 s] génération 969 : essai bloqué à 2 conflits depuis 30 générations (distance 2.9), redémarrage n° 24
+[INFO  1034.7 s] échec : 1000 générations atteintes, meilleur=2 conflits, 24 redémarrage(s)
+[INFO  1034.7 s] résultat : échec (2 conflits restants), temps=1034.68 s, itérations=1000, redémarrages=24
+[INFO  1034.7 s] grille obtenue :
+3 7 2 | 1 9 6 | 8 4 5
+9 6 5 | 4 8 3 | 7 1 2
+8 1 4 | 2 7 5 | 9 3 6
+------+-------+------
+1 5 9 | 6 4 3 | 2 7 8
+2 3 7 | 5 1 8 | 4 6 9
+6 4 8 | 9 2 7 | 3 5 1
+------+-------+------
+5 2 3 | 8 6 4 | 1 9 7
+4 8 6 | 7 1 9 | 5 2 3
+7 9 1 | 3 5 2 | 6 8 4

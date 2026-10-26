@@ -1,0 +1,32 @@
+[INFO     0.0 s] ===== genetic_hc sur Sudoku-07-expert.txt (lancement 20261025-141610, exécution 4/10) =====
+[INFO     0.0 s] grille de départ :
+. . . | . 3 . | . . 8
+7 . 6 | . . . | . . 9
+3 2 . | . 1 . | . 6 7
+------+-------+------
+. . 9 | . . . | . . .
+. 7 . | 9 2 1 | . . .
+. 3 . | . . 5 | . . .
+------+-------+------
+. 8 . | . . 7 | . 9 .
+. . . | . 5 . | 3 . 1
+5 . 7 | . . 2 | . . .
+[INFO     0.5 s] début : population=1000, troncature au quantile 0.5, crossover uniforme, hill climbing sur 0.1 des enfants (5 pas max), redémarrage après 30 générations sans progrès, mutation=0.1 (6 échange(s) = 0.2 × 55 cases ÷ 2), max=1000, meilleur initial=15 conflits
+[INFO    25.2 s] génération 32 : essai bloqué à 2 conflits depuis 30 générations (distance 3.3), redémarrage n° 1
+[INFO    53.4 s] génération 67 : essai bloqué à 2 conflits depuis 30 générations (distance 3.1), redémarrage n° 2
+[INFO    80.2 s] génération 102 : essai bloqué à 2 conflits depuis 30 générations (distance 2.4), redémarrage n° 3
+[INFO   104.7 s] génération 134 : essai bloqué à 2 conflits depuis 30 générations (distance 3.8), redémarrage n° 4
+[INFO   114.3 s] solution trouvée à la génération 142 après 4 redémarrage(s)
+[INFO   114.3 s] résultat : résolu, temps=114.32 s, itérations=142, redémarrages=4
+[INFO   114.3 s] grille obtenue :
+1 9 4 | 7 3 6 | 2 5 8
+7 5 6 | 2 4 8 | 1 3 9
+3 2 8 | 5 1 9 | 4 6 7
+------+-------+------
+2 4 9 | 6 8 3 | 7 1 5
+6 7 5 | 9 2 1 | 8 4 3
+8 3 1 | 4 7 5 | 9 2 6
+------+-------+------
+4 8 3 | 1 6 7 | 5 9 2
+9 6 2 | 8 5 4 | 3 7 1
+5 1 7 | 3 9 2 | 6 8 4

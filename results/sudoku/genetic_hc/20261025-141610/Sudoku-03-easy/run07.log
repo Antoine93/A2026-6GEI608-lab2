@@ -1,0 +1,35 @@
+[INFO     0.0 s] ===== genetic_hc sur Sudoku-03-easy.txt (lancement 20261025-141610, exécution 7/10) =====
+[INFO     0.0 s] grille de départ :
+1 . 3 | . 4 . | . . 7
+6 . . | . 5 . | . . .
+8 . . | . . 6 | . 1 4
+------+-------+------
+. . 8 | . 6 9 | 4 . .
+4 5 . | . . 7 | . . .
+. 3 . | 5 . . | . 8 .
+------+-------+------
+. . . | . . . | . . 1
+. . 4 | . . . | 8 . .
+. . . | 8 3 . | . . .
+[INFO     0.5 s] début : population=1000, troncature au quantile 0.5, crossover uniforme, hill climbing sur 0.1 des enfants (5 pas max), redémarrage après 30 générations sans progrès, mutation=0.1 (6 échange(s) = 0.2 × 56 cases ÷ 2), max=1000, meilleur initial=19 conflits
+[INFO    40.0 s] génération 38 : essai bloqué à 2 conflits depuis 30 générations (distance 3.7), redémarrage n° 1
+[INFO    76.4 s] génération 73 : essai bloqué à 2 conflits depuis 30 générations (distance 5.1), redémarrage n° 2
+[INFO   119.5 s] génération 111 : essai bloqué à 2 conflits depuis 30 générations (distance 7.9), redémarrage n° 3
+[INFO   159.3 s] génération 152 : essai bloqué à 2 conflits depuis 30 générations (distance 3.2), redémarrage n° 4
+[INFO   201.9 s] génération 194 : essai bloqué à 2 conflits depuis 30 générations (distance 5.5), redémarrage n° 5
+[INFO   242.1 s] génération 236 : essai bloqué à 2 conflits depuis 30 générations (distance 4.4), redémarrage n° 6
+[INFO   280.6 s] génération 274 : essai bloqué à 2 conflits depuis 30 générations (distance 4.2), redémarrage n° 7
+[INFO   304.8 s] solution trouvée à la génération 292 après 7 redémarrage(s)
+[INFO   304.8 s] résultat : résolu, temps=304.76 s, itérations=292, redémarrages=7
+[INFO   304.8 s] grille obtenue :
+1 2 3 | 9 4 8 | 5 6 7
+6 4 7 | 1 5 3 | 9 2 8
+8 9 5 | 7 2 6 | 3 1 4
+------+-------+------
+2 1 8 | 3 6 9 | 4 7 5
+4 5 6 | 2 8 7 | 1 9 3
+7 3 9 | 5 1 4 | 2 8 6
+------+-------+------
+9 8 2 | 4 7 5 | 6 3 1
+3 7 4 | 6 9 1 | 8 5 2
+5 6 1 | 8 3 2 | 7 4 9

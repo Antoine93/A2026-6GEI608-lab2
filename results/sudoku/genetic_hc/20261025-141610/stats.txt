@@ -1,0 +1,17 @@
+algorithme : genetic_hc
+lancement : 20261025-141610
+exécutions par puzzle : 10
+
+puzzle	résolues	temps moyen (s)	itérations moyennes
+Sudoku-01-simple	10/10	40.636	30.8
+Sudoku-02-simple	10/10	11.784	9.3
+Sudoku-03-easy	9/10	388.156	377.5
+Sudoku-04-easy	0/10	1041.146	1000.0
+Sudoku-05-intermediate	10/10	50.313	44.5
+Sudoku-06-intermediate	10/10	16.175	13.2
+Sudoku-07-expert	10/10	31.036	34.3
+Sudoku-08-expert	0/10	1015.560	1000.0
+Sudoku-09-easy	10/10	25.838	23.5
+Sudoku-10-easy	10/10	15.697	13.3
+
+total : 79/100 résolues (79 %)

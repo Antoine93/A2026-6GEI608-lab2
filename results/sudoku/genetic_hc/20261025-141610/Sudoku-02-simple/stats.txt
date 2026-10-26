@@ -1,0 +1,26 @@
+algorithme : genetic_hc
+lancement : 20261025-141610
+puzzle : Sudoku-02-simple.txt
+exécutions : 10
+résolues : 10/10 (100 %)
+
+exécution	temps (s)	itérations	redémarrages	conflits restants
+1	7.271	6	0	0
+2	15.759	12	0	0
+3	12.110	9	0	0
+4	12.047	10	0	0
+5	15.346	12	0	0
+6	7.312	6	0	0
+7	10.759	9	0	0
+8	13.495	11	0	0
+9	8.997	7	0	0
+10	14.751	11	0	0
+
+toutes les exécutions :
+  temps (s)    : moyenne=11.78, écart-type=3.15, min=7.27, max=15.76
+  itérations   : moyenne=9.30, écart-type=2.31, min=6.00, max=12.00
+  redémarrages : moyenne=0.00, écart-type=0.00, min=0.00, max=0.00
+  conflits     : moyenne=0.00, écart-type=0.00, min=0.00, max=0.00
+exécutions résolues seulement :
+  temps (s)    : moyenne=11.78, écart-type=3.15, min=7.27, max=15.76
+  itérations   : moyenne=9.30, écart-type=2.31, min=6.00, max=12.00

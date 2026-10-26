@@ -1,0 +1,53 @@
+[INFO     0.0 s] ===== genetic_hc sur Sudoku-08-expert.txt (lancement 20261025-141610, exécution 10/10) =====
+[INFO     0.0 s] grille de départ :
+. . 3 | 8 4 . | . 2 .
+. . . | . . 9 | . . .
+. 7 . | 5 . . | . . .
+------+-------+------
+5 . . | . 8 3 | 6 4 .
+. 3 . | 4 . 5 | . 9 2
+. . . | 7 . . | 3 . 5
+------+-------+------
+. 5 . | . . . | . . 3
+. . . | . 6 . | 9 . .
+. . . | 2 . . | . . .
+[INFO     0.5 s] début : population=1000, troncature au quantile 0.5, crossover uniforme, hill climbing sur 0.1 des enfants (5 pas max), redémarrage après 30 générations sans progrès, mutation=0.1 (6 échange(s) = 0.2 × 56 cases ÷ 2), max=1000, meilleur initial=19 conflits
+[INFO    40.5 s] génération 37 : essai bloqué à 2 conflits depuis 30 générations (distance 9.0), redémarrage n° 1
+[INFO    79.2 s] génération 77 : essai bloqué à 2 conflits depuis 30 générations (distance 4.3), redémarrage n° 2
+[INFO   117.7 s] génération 120 : essai bloqué à 2 conflits depuis 30 générations (distance 4.3), redémarrage n° 3
+[INFO   163.4 s] génération 163 : essai bloqué à 2 conflits depuis 30 générations (distance 5.3), redémarrage n° 4
+[INFO   202.5 s] génération 204 : essai bloqué à 2 conflits depuis 30 générations (distance 2.5), redémarrage n° 5
+[INFO   244.2 s] génération 240 : essai bloqué à 2 conflits depuis 30 générations (distance 12.4), redémarrage n° 6
+[INFO   285.0 s] génération 283 : essai bloqué à 2 conflits depuis 30 générations (distance 5.8), redémarrage n° 7
+[INFO   325.9 s] génération 323 : essai bloqué à 2 conflits depuis 30 générations (distance 3.3), redémarrage n° 8
+[INFO   367.7 s] génération 363 : essai bloqué à 2 conflits depuis 30 générations (distance 6.3), redémarrage n° 9
+[INFO   405.6 s] génération 404 : essai bloqué à 2 conflits depuis 30 générations (distance 4.5), redémarrage n° 10
+[INFO   446.6 s] génération 443 : essai bloqué à 2 conflits depuis 30 générations (distance 6.5), redémarrage n° 11
+[INFO   490.4 s] génération 484 : essai bloqué à 2 conflits depuis 30 générations (distance 5.9), redémarrage n° 12
+[INFO   528.9 s] génération 523 : essai bloqué à 2 conflits depuis 30 générations (distance 4.8), redémarrage n° 13
+[INFO   571.4 s] génération 562 : essai bloqué à 2 conflits depuis 30 générations (distance 6.3), redémarrage n° 14
+[INFO   613.6 s] génération 607 : essai bloqué à 2 conflits depuis 30 générations (distance 6.0), redémarrage n° 15
+[INFO   648.7 s] génération 643 : essai bloqué à 2 conflits depuis 30 générations (distance 4.7), redémarrage n° 16
+[INFO   695.1 s] génération 684 : essai bloqué à 2 conflits depuis 30 générations (distance 14.3), redémarrage n° 17
+[INFO   739.6 s] génération 724 : essai bloqué à 2 conflits depuis 30 générations (distance 7.1), redémarrage n° 18
+[INFO   783.5 s] génération 768 : essai bloqué à 2 conflits depuis 30 générations (distance 5.9), redémarrage n° 19
+[INFO   827.6 s] génération 808 : essai bloqué à 2 conflits depuis 30 générations (distance 9.5), redémarrage n° 20
+[INFO   865.6 s] génération 846 : essai bloqué à 2 conflits depuis 30 générations (distance 5.4), redémarrage n° 21
+[INFO   906.3 s] génération 881 : essai bloqué à 2 conflits depuis 30 générations (distance 8.7), redémarrage n° 22
+[INFO   946.3 s] génération 919 : essai bloqué à 2 conflits depuis 30 générations (distance 6.6), redémarrage n° 23
+[INFO   987.5 s] génération 960 : essai bloqué à 2 conflits depuis 30 générations (distance 5.5), redémarrage n° 24
+[INFO  1022.4 s] génération 995 : essai bloqué à 2 conflits depuis 30 générations (distance 5.5), redémarrage n° 25
+[INFO  1029.2 s] échec : 1000 générations atteintes, meilleur=2 conflits, 25 redémarrage(s)
+[INFO  1029.2 s] résultat : échec (2 conflits restants), temps=1029.19 s, itérations=1000, redémarrages=25
+[INFO  1029.2 s] grille obtenue :
+1 6 3 | 8 4 7 | 5 2 9
+2 4 5 | 6 3 9 | 1 7 8
+9 7 8 | 5 2 1 | 4 3 6
+------+-------+------
+5 2 1 | 9 8 3 | 6 4 7
+6 3 7 | 4 1 5 | 8 9 2
+8 9 4 | 7 2 6 | 3 1 5
+------+-------+------
+7 5 6 | 1 9 4 | 2 8 3
+4 8 2 | 3 6 7 | 9 5 1
+3 1 9 | 2 5 8 | 7 6 4

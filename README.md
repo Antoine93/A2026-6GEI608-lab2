@@ -222,7 +222,7 @@ Au début du laboratoire, nous avons lancé la version de base du hill climbing 
 
 Lancement : `mesure_temps_hill_climbing.py`, un processus par puzzle (10 en parallèle réalisé sur un PC à 32 coeurs), du 2026-10-24 08:03 jusqu'à l'arrêt manuel (Ctrl+C) le 2026-10-25, après 1 678,9 min (≈ 28 h). Résultats complets dans `results/hill_climbing_base_sans_plafond/` (`resume.txt`, `suivi.txt` et un `.log` par puzzle).
 
-Mais voici un tableau récapitulatif des résultats :
+Voici un tableau récapitulatif des résultats :
 
 | Puzzle | Résultat | Temps (horloge) | Itérations | Redémarrages |
 |---|---|---|---|---|
@@ -284,25 +284,29 @@ Chaque valeur vient d'un fichier `stats.txt` conservé dans `results/sudoku/<alg
 
 | Puzzle | Hill climbing | Génétique (tournoi) | Génétique (troncature) | Génétique + hill climbing |
 |---|---|---|---|---|
-| 01 | 5/10, 236,9 s | 0/10, 154,4 s | 0/10, 100,6 s | à venir |
-| 02 | 10/10, 16,3 s | 0/10, 153,9 s | 0/10, 102,1 s | à venir |
-| 03 | 2/10, 230,9 s | 0/10, 157,7 s | 0/10, 102,0 s | à venir |
-| 04 | 0/10, 282,1 s | 0/10, 150,0 s | 0/10, 103,4 s | à venir |
-| 05 | 6/10, 206,3 s | 0/10, 153,0 s | 0/10, 134,9 s | à venir |
-| 06 | 4/10, 192,3 s | 0/10, 150,7 s | 0/10, 103,0 s | à venir |
-| 07 | 10/10, 27,4 s | 0/10, 154,5 s | 0/10, 105,3 s | à venir |
-| 08 | 0/10, 277,2 s | 0/10, 153,8 s | 0/10, 103,3 s | à venir |
-| 09 | 4/10, 206,0 s | 0/10, 151,2 s | 0/10, 105,2 s | à venir |
-| 10 | 6/10, 155,9 s | 0/10, 151,5 s | 0/10, 104,5 s | à venir |
-| **Total** | **47/100** | **0/100** | **0/100** | |
+| 01 | 5/10, 236,9 s | 0/10, 154,4 s | 0/10, 100,6 s | 10/10, 40,6 s |
+| 02 | 10/10, 16,3 s | 0/10, 153,9 s | 0/10, 102,1 s | 10/10, 11,8 s |
+| 03 | 2/10, 230,9 s | 0/10, 157,7 s | 0/10, 102,0 s | 9/10, 388,2 s |
+| 04 | 0/10, 282,1 s | 0/10, 150,0 s | 0/10, 103,4 s | 0/10, 1 041,1 s |
+| 05 | 6/10, 206,3 s | 0/10, 153,0 s | 0/10, 134,9 s | 10/10, 50,3 s |
+| 06 | 4/10, 192,3 s | 0/10, 150,7 s | 0/10, 103,0 s | 10/10, 16,2 s |
+| 07 | 10/10, 27,4 s | 0/10, 154,5 s | 0/10, 105,3 s | 10/10, 31,0 s |
+| 08 | 0/10, 277,2 s | 0/10, 153,8 s | 0/10, 103,3 s | 0/10, 1 015,6 s |
+| 09 | 4/10, 206,0 s | 0/10, 151,2 s | 0/10, 105,2 s | 10/10, 25,8 s |
+| 10 | 6/10, 155,9 s | 0/10, 151,5 s | 0/10, 104,5 s | 10/10, 15,7 s |
+| **Total** | **47/100** | **0/100** | **0/100** | **79/100** |
 
 Sources :
 - `results/sudoku/hill_climbing/20261025-113114/stats.txt` (10 exécutions par puzzle, plafond de 100 000 itérations)
 - `results/sudoku/genetic_tournament/20261025-131905/stats.txt` (5 000 générations par exécution)
--  `results/sudoku/genetic_truncation/20261025-101920/stats.txt` (5 000 générations par exécution).
-Le temps moyen compte aussi les exécutions échouées, qui durent jusqu'au plafond (environ 280 s pour le hill climbing). La colonne génétique + hill climbing sera remplie avec le `stats.txt` de `genetic_hc` quand cette évaluation sera terminée.
+- `results/sudoku/genetic_truncation/20261025-101920/stats.txt` (5 000 générations par exécution)
+- `results/sudoku/genetic_hc/20261025-141610/stats.txt` (10 exécutions par puzzle, plafond de 1 000 générations)
+
+Le temps moyen compte aussi les exécutions échouées, qui durent jusqu'au plafond (environ 280 s pour le hill climbing). Pour le génétique + hill climbing, une exécution échouée dure environ 1 000 s (plafond de 1 000 générations, environ 24 redémarrages).
 
 **Lecture du hill climbing :** 47 exécutions sur 100 sont résolues dans les paramètres fixés. Les puzzles 02 et 07 le sont 10 fois sur 10 en 16 s et 27 s, alors que 04 et 08 ne le sont jamais : le plafond de 100 000 itérations (à peu près 5 500 redémarrages) est trop court pour eux, comme le laissaient prévoir nos mesures sans plafond. Les deux génétiques purs (tournoi et troncature) ne résolvent aucune exécution sur 200, ce qui confirme l'analyse plus bas.
+
+**Lecture du génétique + hill climbing :** 79 exécutions sur 100 sont résolues. Sept puzzles sur dix le sont 10 fois sur 10, en 12 à 50 s en moyenne et avec au plus un redémarrage en moyenne ; le Sudoku-07 « expert » est résolu en 31 s en moyenne. Le Sudoku-03 l'est 9 fois sur 10, mais en 388 s en moyenne et avec jusqu'à 24 redémarrages (bassin de faux minima à 2 conflits, voir l'analyse). Les Sudoku-04 et 08 ne sont jamais résolus dans le plafond de 1 000 générations : ce sont aussi les deux puzzles que le hill climbing ne résout jamais. C'est le seul des quatre algorithmes qui résout la majorité des exécutions.
 
 
 ### Analyse
@@ -317,7 +321,7 @@ Il faut **à la fois** de la diversité et une pression de sélection : sans pre
 
 **Pourquoi le génétique + hill climbing fonctionne.** Le hill climbing seul repart toujours d'une grille aléatoire et oublie ses essais (il a trouvé des solutions, mais après plusieurs heures) ; le génétique seul s'approche de la solution mais ne sait pas la finir. Le mémétique part de combinaisons de bons optimums locaux et le hill climbing finit le travail ; les redémarrages sur stagnation remplacent la diversité perdue. Sa pression de sélection doit laisser les grilles améliorées se reproduire : avec la troncature à 0,5, il a résolu 9 exécutions sur 9 (puzzles 01, 05, 07) ; à 0,95, seulement 3 sur 9.
 
-**Difficulté qqwing et difficulté pour la recherche.** La difficulté qqwing mesure les techniques de déduction humaines. Elle ne prédit pas la difficulté pour une recherche par échanges : le Sudoku-07 "expert" a été résolu en quelques secondes, alors que le Sudoku-03 "easy" a demandé jusqu'à 23 redémarrages (grand bassin de faux minima à 2 conflits).
+**Difficulté qqwing et difficulté pour la recherche.** La difficulté qqwing mesure les techniques de déduction humaines. Elle ne prédit pas la difficulté pour une recherche par échanges : le Sudoku-07 "expert" a été résolu en quelques secondes, alors que le Sudoku-03 "easy" a demandé jusqu'à 24 redémarrages (grand bassin de faux minima à 2 conflits).
 
 **Connaissance du domaine.** Une seule passe de filtrage à partir des cases données a presque doublé le taux de réussite (génétique + hill climbing : 5/9 à 9/9 ; hill climbing : 0/9 à 5/9). La connaissance du problème a pesé plus lourd que le réglage des paramètres.
 
@@ -325,7 +329,7 @@ Il faut **à la fois** de la diversité et une pression de sélection : sans pre
 
 ### Pistes de solutions
 
-- **Recuit simulé** (vu en cours) : accepter parfois un voisin pire permettrait de défaire une chaîne d'inversions comme celle du Sudoku-03.
+- **Recuit simulé** (vu en cours) : accepter parfois un voisin pire permettrait de défaire une chaîne d'inversions comme celle du Sudoku-03 et Sudoku-08.
 - **Voisinage étendu** : des paires d'échanges dans deux lignes différentes (beaucoup plus coûteux).
 - **Exécutions en parallèle** dans le runner, pour réduire la durée des évaluations.
 
