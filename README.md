@@ -263,7 +263,7 @@ Créée pour préserver la diversité. Avec le tournoi, la population descend ra
 
 #### 3. Génétique et hill climbing (`genetic_hc.py`)
 
-Algorithme mémétique : la troncature uniforme, plus un hill climbing appliqué à une fraction des enfants (`HILL_CLIMBING_RATE`) pendant au plus `HILL_CLIMBING_STEPS` pas (même voisinage et même règle que `hill_climbing.py`, sans redémarrage interne). Si le meilleur score de l'essai en cours n'est pas battu pendant `RESTART_STAGNATION` générations, toute la population est recréée. Il réunit le meilleur des deux mondes : le génétique combine les lignes de bons optimums locaux et garde la mémoire des bons essais ; le hill climbing fait les derniers échanges précis que le génétique seul ne trouve pas. C'est un hybride, présenté comme tel.
+Algorithme mémétique : la troncature uniforme, plus un hill climbing appliqué à une fraction des enfants (`HILL_CLIMBING_RATE`) pendant au plus `HILL_CLIMBING_STEPS` pas (même voisinage et même règle que `hill_climbing.py`, sans redémarrage interne). Si le meilleur score de l'essai en cours n'est pas battu pendant `RESTART_STAGNATION` générations, toute la population est recréée. Il réunit le meilleur des deux mondes : le génétique combine les lignes de plusieurs bons optimums locaux au sein d'un même essai ; le hill climbing fait les derniers échanges précis que le génétique seul ne trouve pas. C'est un hybride, présenté comme tel.
 
 #### Paramètres
 
