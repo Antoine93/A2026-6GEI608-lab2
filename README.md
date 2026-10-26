@@ -284,19 +284,25 @@ Chaque valeur vient d'un fichier `stats.txt` conservé dans `results/sudoku/<alg
 
 | Puzzle | Hill climbing | Génétique (tournoi) | Génétique (troncature) | Génétique + hill climbing |
 |---|---|---|---|---|
-| 01 | en cours | à venir | 0/10, 100,6 s | à venir |
-| 02 | en cours | à venir | 0/10, 102,1 s | à venir |
-| 03 | en cours | à venir | 0/10, 102,0 s | à venir |
-| 04 | en cours | à venir | 0/10, 103,4 s | à venir |
-| 05 | en cours | à venir | 0/10, 134,9 s | à venir |
-| 06 | en cours | à venir | 0/10, 103,0 s | à venir |
-| 07 | en cours | à venir | 0/10, 105,3 s | à venir |
-| 08 | en cours | à venir | 0/10, 103,3 s | à venir |
-| 09 | en cours | à venir | 0/10, 105,2 s | à venir |
-| 10 | en cours | à venir | 0/10, 104,5 s | à venir |
-| **Total** | | | **0/100** | |
+| 01 | 5/10, 236,9 s | 0/10, 154,4 s | 0/10, 100,6 s | à venir |
+| 02 | 10/10, 16,3 s | 0/10, 153,9 s | 0/10, 102,1 s | à venir |
+| 03 | 2/10, 230,9 s | 0/10, 157,7 s | 0/10, 102,0 s | à venir |
+| 04 | 0/10, 282,1 s | 0/10, 150,0 s | 0/10, 103,4 s | à venir |
+| 05 | 6/10, 206,3 s | 0/10, 153,0 s | 0/10, 134,9 s | à venir |
+| 06 | 4/10, 192,3 s | 0/10, 150,7 s | 0/10, 103,0 s | à venir |
+| 07 | 10/10, 27,4 s | 0/10, 154,5 s | 0/10, 105,3 s | à venir |
+| 08 | 0/10, 277,2 s | 0/10, 153,8 s | 0/10, 103,3 s | à venir |
+| 09 | 4/10, 206,0 s | 0/10, 151,2 s | 0/10, 105,2 s | à venir |
+| 10 | 6/10, 155,9 s | 0/10, 151,5 s | 0/10, 104,5 s | à venir |
+| **Total** | **47/100** | **0/100** | **0/100** | |
 
-La source de la colonne troncature est `results/sudoku/genetic_truncation/20261025-101920/stats.txt` (chaque exécution a utilisé les 5 000 générations permises). Les autres colonnes seront remplies avec les `stats.txt` de `hill_climbing`, `genetic_tournament` et `genetic_hc` quand ces évaluations seront terminées.
+Sources :
+- `results/sudoku/hill_climbing/20261025-113114/stats.txt` (10 exécutions par puzzle, plafond de 100 000 itérations)
+- `results/sudoku/genetic_tournament/20261025-131905/stats.txt` (5 000 générations par exécution)
+-  `results/sudoku/genetic_truncation/20261025-101920/stats.txt` (5 000 générations par exécution).
+Le temps moyen compte aussi les exécutions échouées, qui durent jusqu'au plafond (environ 280 s pour le hill climbing). La colonne génétique + hill climbing sera remplie avec le `stats.txt` de `genetic_hc` quand cette évaluation sera terminée.
+
+**Lecture du hill climbing :** 47 exécutions sur 100 sont résolues dans les paramètres fixés. Les puzzles 02 et 07 le sont 10 fois sur 10 en 16 s et 27 s, alors que 04 et 08 ne le sont jamais : le plafond de 100 000 itérations (à peu près 5 500 redémarrages) est trop court pour eux, comme le laissaient prévoir nos mesures sans plafond. Les deux génétiques purs (tournoi et troncature) ne résolvent aucune exécution sur 200, ce qui confirme l'analyse plus bas.
 
 
 ### Analyse
