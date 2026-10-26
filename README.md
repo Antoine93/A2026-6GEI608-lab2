@@ -298,8 +298,8 @@ Chaque valeur vient d'un fichier `stats.txt` conservé dans `results/sudoku/<alg
 
 Sources :
 - `results/sudoku/hill_climbing/20261025-113114/stats.txt` (10 exécutions par puzzle, plafond de 100 000 itérations)
-- `results/sudoku/genetic_tournament/20261025-131905/stats.txt` (5 000 générations par exécution)
-- `results/sudoku/genetic_truncation/20261025-101920/stats.txt` (5 000 générations par exécution)
+- `results/sudoku/genetic_tournament/20261025-131905/stats.txt` (10 exécutions par puzzle, plafond de 5 000 générations)
+- `results/sudoku/genetic_truncation/20261025-101920/stats.txt` (10 exécutions par puzzle, plafond de 5 000 générations)
 - `results/sudoku/genetic_hc/20261025-141610/stats.txt` (10 exécutions par puzzle, plafond de 1 000 générations)
 
 Le temps moyen compte aussi les exécutions échouées, qui durent jusqu'au plafond (environ 280 s pour le hill climbing). Pour le génétique + hill climbing, une exécution échouée dure environ 1 000 s (plafond de 1 000 générations, environ 24 redémarrages).
