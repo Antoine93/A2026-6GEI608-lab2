@@ -1,0 +1,26 @@
+algorithme : genetic_hc
+lancement : 20261025-141610
+puzzle : Sudoku-07-expert.txt
+exécutions : 10
+résolues : 10/10 (100 %)
+
+exécution	temps (s)	itérations	redémarrages	conflits restants
+1	7.528	6	0	0
+2	63.978	72	2	0
+3	35.370	41	1	0
+4	114.322	142	4	0
+5	34.191	37	1	0
+6	8.704	7	0	0
+7	9.465	8	0	0
+8	11.311	9	0	0
+9	14.000	12	0	0
+10	11.490	9	0	0
+
+toutes les exécutions :
+  temps (s)    : moyenne=31.04, écart-type=34.36, min=7.53, max=114.32
+  itérations   : moyenne=34.30, écart-type=43.57, min=6.00, max=142.00
+  redémarrages : moyenne=0.80, écart-type=1.32, min=0.00, max=4.00
+  conflits     : moyenne=0.00, écart-type=0.00, min=0.00, max=0.00
+exécutions résolues seulement :
+  temps (s)    : moyenne=31.04, écart-type=34.36, min=7.53, max=114.32
+  itérations   : moyenne=34.30, écart-type=43.57, min=6.00, max=142.00

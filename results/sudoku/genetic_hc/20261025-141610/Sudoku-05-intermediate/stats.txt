@@ -1,0 +1,26 @@
+algorithme : genetic_hc
+lancement : 20261025-141610
+puzzle : Sudoku-05-intermediate.txt
+exécutions : 10
+résolues : 10/10 (100 %)
+
+exécution	temps (s)	itérations	redémarrages	conflits restants
+1	55.074	51	1	0
+2	93.115	88	2	0
+3	32.380	25	0	0
+4	28.684	22	0	0
+5	19.033	14	0	0
+6	130.085	126	3	0
+7	28.511	22	0	0
+8	64.084	57	1	0
+9	24.340	19	0	0
+10	27.824	21	0	0
+
+toutes les exécutions :
+  temps (s)    : moyenne=50.31, écart-type=36.26, min=19.03, max=130.08
+  itérations   : moyenne=44.50, écart-type=36.91, min=14.00, max=126.00
+  redémarrages : moyenne=0.70, écart-type=1.06, min=0.00, max=3.00
+  conflits     : moyenne=0.00, écart-type=0.00, min=0.00, max=0.00
+exécutions résolues seulement :
+  temps (s)    : moyenne=50.31, écart-type=36.26, min=19.03, max=130.08
+  itérations   : moyenne=44.50, écart-type=36.91, min=14.00, max=126.00

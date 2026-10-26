@@ -1,0 +1,28 @@
+[INFO     0.0 s] ===== genetic_hc sur Sudoku-05-intermediate.txt (lancement 20261025-141610, exécution 4/10) =====
+[INFO     0.0 s] grille de départ :
+. . . | . . . | . 4 1
+. . 5 | . . . | 2 . .
+. 2 . | 7 . . | 6 . 9
+------+-------+------
+3 6 . | 1 . 7 | . . .
+9 . 2 | . 3 . | . . 6
+. . . | 4 . . | . . .
+------+-------+------
+. . . | . . 5 | . . 7
+. . . | 2 . . | 5 . .
+. 7 . | 9 . . | . 1 .
+[INFO     0.5 s] début : population=1000, troncature au quantile 0.5, crossover uniforme, hill climbing sur 0.1 des enfants (5 pas max), redémarrage après 30 générations sans progrès, mutation=0.1 (6 échange(s) = 0.2 × 57 cases ÷ 2), max=1000, meilleur initial=17 conflits
+[INFO    28.7 s] solution trouvée à la génération 22 après 0 redémarrage(s)
+[INFO    28.7 s] résultat : résolu, temps=28.68 s, itérations=22, redémarrages=0
+[INFO    28.7 s] grille obtenue :
+6 8 9 | 3 5 2 | 7 4 1
+7 1 5 | 6 9 4 | 2 8 3
+4 2 3 | 7 8 1 | 6 5 9
+------+-------+------
+3 6 8 | 1 2 7 | 4 9 5
+9 4 2 | 5 3 8 | 1 7 6
+1 5 7 | 4 6 9 | 3 2 8
+------+-------+------
+2 3 4 | 8 1 5 | 9 6 7
+8 9 1 | 2 7 6 | 5 3 4
+5 7 6 | 9 4 3 | 8 1 2
