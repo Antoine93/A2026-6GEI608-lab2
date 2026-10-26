@@ -183,7 +183,7 @@ Le niveau de journalisation se règle par `LOG_LEVEL` en tête de chaque fichier
 - **État :** une grille de 81 cases entièrement remplie, les cases données intactes. Chaque **ligne** contient toujours les chiffres 1 à 9 ; seuls les colonnes et les blocs peuvent être en conflit.
 - **État initial :** `fill_rows` (`src/sudoku/commun.py`) remplit chaque ligne au hasard avec ses chiffres manquants.
 - **Coût (fitness) :** `conflicts`, le nombre de **paires** de cases contenant le même chiffre dans une même colonne ou un même bloc (fonction des 8 reines vue en cours). Il vaut 0 seulement pour la solution ; il est à minimiser.
-- **Voisin :** échange de deux cases **modifiables** d'une même ligne. Le cours définit un voisin comme le changement du contenu d'une case ; changer une seule case créerait forcément un doublon dans sa ligne. Un échange équivaut à deux changements de case coordonnés qui gardent les lignes valides ; c'est l'opérateur standard pour cette représentation, et il réduit l'espace de recherche.
+- **Voisin :** échange de deux cases modifiables d'une même ligne. Le cours définit un voisin comme le changement du contenu d'une case ; changer une seule case créerait forcément un doublon dans sa ligne. Un échange équivaut à deux changements de case coordonnés qui gardent les lignes valides ; c'est l'opérateur standard pour cette représentation, et il réduit l'espace de recherche.
 - **Cases données :** jamais modifiées, ni par les voisins, ni par la mutation, ni par le crossover.
 
 **Restriction aux chiffres permis (connaissance du domaine, déclarée).**
@@ -218,7 +218,7 @@ Il est important d'ajouter une précision qu'**une itération** est l'évaluatio
 
 #### Hill climbing de base, sans plafond
 
-Au début du laboratoire, nous avons lancé la version de base du hill climbing sur les 10 puzzles, **sans aucune limite de temps**, pour savoir ce que coûte l'algorithme tel quel. Cette version est celle du commit `f63f579` : remplissage uniforme des lignes (sans restriction aux chiffres permis), `conflicts` avec `Counter`, aucun `MAX_ITERATIONS`, aucun journal. L'algorithme (voisinage, règle de déplacement, redémarrage sur optimum local) est le même qu'aujourd'hui. Ce qui a changé depuis : le plafond `MAX_ITERATIONS`, le remplissage par chiffres permis, un calcul de `conflicts` plus rapide et la journalisation.
+Au début du laboratoire, nous avons lancé la version de base du hill climbing sur les 10 puzzles, sans aucune limite de temps, pour savoir ce que coûte l'algorithme tel quel. Cette version est celle du commit `f63f579` : remplissage uniforme des lignes (sans restriction aux chiffres permis), `conflicts` avec `Counter`, aucun `MAX_ITERATIONS`, aucun journal. L'algorithme (voisinage, règle de déplacement, redémarrage sur optimum local) est le même qu'aujourd'hui. Ce qui a changé depuis : le plafond `MAX_ITERATIONS`, le remplissage par chiffres permis, un calcul de `conflicts` plus rapide et la journalisation.
 
 Lancement : `mesure_temps_hill_climbing.py`, un processus par puzzle (10 en parallèle réalisé sur un PC à 32 coeurs), du 2026-10-24 08:03 jusqu'à l'arrêt manuel (Ctrl+C) le 2026-10-25, après 1 678,9 min (≈ 28 h). Résultats complets dans `results/hill_climbing_base_sans_plafond/` (`resume.txt`, `suivi.txt` et un `.log` par puzzle).
 
@@ -245,7 +245,7 @@ Les résultats du hill climbing avec la version du code actuel (plafond de 100 0
 
 Les trois versions partagent la représentation, la fitness (`conflicts`, à minimiser), le crossover et la mutation ; elles diffèrent par la sélection et par les mécanismes ajoutés. Toutes s'arrêtent à la solution ou après `MAX_GENERATIONS` générations, et retournent la meilleure grille vue sur toute l'exécution (pas seulement celle de la dernière génération).
 
-**Une itération** correspond à une **génération** : la création de `POP_SIZE` enfants (sélection, crossover, mutation, et hill climbing pour une partie des enfants dans `genetic_hc`) qui remplacent la population. Une génération coûte donc beaucoup plus cher qu'une itération du hill climbing : les nombres d'itérations ne se comparent pas d'un algorithme à l'autre, seuls les temps et les taux de succès le permettent.
+Une itération correspond à une génération : la création de `POP_SIZE` enfants (sélection, crossover, mutation, et hill climbing pour une partie des enfants dans `genetic_hc`) qui remplacent la population. Une génération coûte donc beaucoup plus cher qu'une itération du hill climbing : les nombres d'itérations ne se comparent pas d'un algorithme à l'autre, seuls les temps et les taux de succès le permettent.
 
 - **Population initiale :** `POP_SIZE` grilles `fill_rows`.
 - **Fitness :** nombre de paires en conflit, à minimiser. Les deux sélections ne font que comparer les scores : aucune transformation en valeur positive n'est nécessaire.
@@ -259,11 +259,11 @@ Version de base, adaptée du code du livre (AIMA, Figure 4.8). Pour choisir un p
 
 #### 2. Sélection par troncature uniforme (`genetic_truncation.py`)
 
-Créée pour **préserver la diversité**. Avec le tournoi, la population descend rapidement d'un même individu (convergence prématurée) et se fige dans un faux minimum. La troncature dirige le groupe **en éliminant les pires** plutôt qu'en favorisant les meilleurs : seuls les individus dont le score est au plus le quantile `TRUNCATION_QUANTILE` de la génération peuvent être parents, et ils sont tirés **uniformément** (un individu à 5 conflits n'a pas plus de chances qu'un individu à 25). Le nombre d'échanges d'une mutation est une fraction des cases modifiables (`MUTATION_SWAP_RATE`). Les journaux DEBUG affichent la distance moyenne entre grilles et la proportion de cases figées, pour suivre la diversité.
+Créée pour préserver la diversité. Avec le tournoi, la population descend rapidement d'un même individu (convergence prématurée) et se fige dans un faux minimum. La troncature dirige le groupe **en éliminant les pires** plutôt qu'en favorisant les meilleurs : seuls les individus dont le score est au plus le quantile `TRUNCATION_QUANTILE` de la génération peuvent être parents, et ils sont tirés uniformément (un individu à 5 conflits n'a pas plus de chances qu'un individu à 25). Le nombre d'échanges d'une mutation est une fraction des cases modifiables (`MUTATION_SWAP_RATE`). Les journaux DEBUG affichent la distance moyenne entre grilles et la proportion de cases figées, pour suivre la diversité.
 
 #### 3. Génétique et hill climbing (`genetic_hc.py`)
 
-Algorithme **mémétique** : la troncature uniforme, plus un hill climbing appliqué à une fraction des enfants (`HILL_CLIMBING_RATE`) pendant au plus `HILL_CLIMBING_STEPS` pas (même voisinage et même règle que `hill_climbing.py`, sans redémarrage interne). Si le meilleur score de l'essai en cours n'est pas battu pendant `RESTART_STAGNATION` générations, toute la population est recréée. Il réunit le meilleur des deux mondes : le génétique combine les lignes de bons optimums locaux et garde la mémoire des bons essais ; le hill climbing fait les derniers échanges précis que le génétique seul ne trouve pas. C'est un hybride, présenté comme tel.
+Algorithme mémétique : la troncature uniforme, plus un hill climbing appliqué à une fraction des enfants (`HILL_CLIMBING_RATE`) pendant au plus `HILL_CLIMBING_STEPS` pas (même voisinage et même règle que `hill_climbing.py`, sans redémarrage interne). Si le meilleur score de l'essai en cours n'est pas battu pendant `RESTART_STAGNATION` générations, toute la population est recréée. Il réunit le meilleur des deux mondes : le génétique combine les lignes de bons optimums locaux et garde la mémoire des bons essais ; le hill climbing fait les derniers échanges précis que le génétique seul ne trouve pas. C'est un hybride, présenté comme tel.
 
 #### Paramètres
 
@@ -311,13 +311,13 @@ Le temps moyen compte aussi les exécutions échouées, qui durent jusqu'au plaf
 
 ### Analyse
 
-**Le génétique pur se coince lui aussi.** Le cours présente l'algorithme génétique comme un moyen de ne pas se coincer dans les optimums locaux mais il ne le garantit pas. Nos mesures nuancent cette affirmation : le génétique pur (tournoi ou troncature) **réduit** le risque mais ne le supprime pas, et plafonne entre 2 et 6 conflits. Deux mécanismes l'expliquent :
+**Le génétique pur se coince lui aussi.** Le cours présente l'algorithme génétique comme un moyen de ne pas se coincer dans les optimums locaux mais il ne le garantit pas. Nos mesures nuancent cette affirmation : le génétique pur (tournoi ou troncature) réduit le risque mais ne le supprime pas, et plafonne entre 2 et 6 conflits. Deux mécanismes l'expliquent :
 - **convergence prématurée** : avec le tournoi, le meilleur individu envahit la population en quelques générations (environ ln N / ln k) ; croiser des grilles presque identiques ne crée plus rien ;
 - **dérive génétique** : même sans aucun avantage aux meilleurs (troncature uniforme), une population finie perd sa diversité, plus vite si elle est petite, car certaines lignées disparaissent au hasard. La dérive fige les lignes présentes, pas celles de la solution.
 
-Il faut **à la fois** de la diversité et une pression de sélection : sans pression, la population erre (troncature à 0,95 : moyenne stable vers 37 conflits avec 20 000 individus) ; avec trop de pression, elle converge vers un faux minimum.
+Il faut à la fois de la diversité et une pression de sélection : sans pression, la population erre (troncature à 0,95 : moyenne stable vers 37 conflits avec 20 000 individus) ; avec trop de pression, elle converge vers un faux minimum.
 
-**Un conflit n'est pas une case fausse.** Sur le Sudoku-03, 114 essais bloqués sur 116 du génétique + hill climbing l'étaient exactement à 2 conflits. Comparées à la solution, ces grilles à 2 conflits comptaient de 9 à 33 cases fausses sur 4 à 8 lignes. Les inversions forment une chaîne (par exemple un 5 et un 6 échangés dans deux lignes différentes) : chaque colonne garde un exemplaire de chaque chiffre, et les conflits n'apparaissent qu'aux bouts de la chaîne. Une grille à 2 conflits est presque une **autre** grille valide ; pour atteindre la solution, il faut changer plusieurs lignes à la fois, et chaque échange isolé ajoute des conflits. C'est un **faux minimum** : le nombre de conflits mesure la validité, pas la distance à la solution. Allonger le hill climbing n'aide pas, puisqu'il s'arrête dès qu'aucun échange n'améliore.
+**Un conflit n'est pas une case fausse.** Sur le Sudoku-03 (lancement `20261025-141610`), les 88 essais bloqués du génétique + hill climbing l'étaient tous exactement à 2 conflits. La grille finale de l'exécution 8, elle aussi à 2 conflits, comptait 24 cases fausses sur 7 lignes par rapport à la solution. Les inversions forment une chaîne (par exemple un 5 et un 6 échangés dans deux lignes différentes) : chaque colonne garde un exemplaire de chaque chiffre, et les conflits n'apparaissent qu'aux bouts de la chaîne. Une grille à 2 conflits est presque une autre grille valide ; pour atteindre la solution, il faut changer plusieurs lignes à la fois, et chaque échange isolé ajoute des conflits. C'est un faux minimum : le nombre de conflits mesure la validité, pas la distance à la solution. Allonger le hill climbing n'aide pas, puisqu'il s'arrête dès qu'aucun échange n'améliore.
 
 **Pourquoi le génétique + hill climbing fonctionne.** Le hill climbing seul repart toujours d'une grille aléatoire et oublie ses essais (il a trouvé des solutions, mais après plusieurs heures) ; le génétique seul s'approche de la solution mais ne sait pas la finir. Le mémétique part de combinaisons de bons optimums locaux et le hill climbing finit le travail ; les redémarrages sur stagnation remplacent la diversité perdue. Sa pression de sélection doit laisser les grilles améliorées se reproduire : avec la troncature à 0,5, il a résolu 9 exécutions sur 9 (puzzles 01, 05, 07) ; à 0,95, seulement 3 sur 9.
 
@@ -329,7 +329,7 @@ Il faut **à la fois** de la diversité et une pression de sélection : sans pre
 
 ### Pistes de solutions
 
-- **Recuit simulé** (vu en cours) : accepter parfois un voisin pire permettrait de défaire une chaîne d'inversions comme celle du Sudoku-03 et Sudoku-08.
+- **Recuit simulé** (vu en cours) : accepter parfois un voisin pire permettrait de défaire une chaîne d'inversions comme celle du Sudoku-04 et Sudoku-08.
 - **Voisinage étendu** : des paires d'échanges dans deux lignes différentes (beaucoup plus coûteux).
 - **Exécutions en parallèle** dans le runner, pour réduire la durée des évaluations.
 
@@ -337,7 +337,7 @@ Il faut **à la fois** de la diversité et une pression de sélection : sans pre
 
 ## Ce que nous avons appris
 
-- Le bon outil dépend du problème : A* est exact et optimal quand une heuristique **ADMISSIBLE** guide la recherche. Le hill climbing et le génétique sont adaptés à l'optimisation quand beaucoup de solutions sont acceptables, moins quand **UNE SEULE SOLUTION EXACTE** est attendue comme au Sudoku.
+- Le bon outil dépend du problème : A* est exact et optimal quand une heuristique **ADMISSIBLE** guide la recherche. Le hill climbing et le génétique sont adaptés à l'optimisation quand beaucoup de solutions sont acceptables, moins quand une seule solution exacte est attendue comme au Sudoku.
 - Une heuristique dominante réduit fortement le nombre d'états explorés (* 110 sur Ex1-4) sans perdre l'optimalité.
 - Un algorithme génétique est fort pour s'approcher d'une solution, faible pour la finir, la diversité sans pression de sélection ne converge pas, et la pression sans diversité se coince.
 - Ajuster des paramètres sur un seul puzzle mène au surapprentissage : il faut mesurer sur plusieurs puzzles, et mesurer chaque mécanisme seul avant de conclure qu'il aide.
